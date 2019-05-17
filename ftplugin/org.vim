@@ -201,7 +201,7 @@ let s:org_cal_date = '2000-01-01'
 let g:org_export_babel_evaluate = 1
 let g:org_tag_group_arrange = 0
 let g:org_first_sparse=1
-let g:org_clocks_in_agenda = 0
+let g:org_clocks_in_agenda = 1
 let s:remstring = '^\s*:\S'
 let s:block_line = '^\s*\(:\|DEADLINE\|SCHEDULED\|CLOSED\|<\d\d\d\d-\|[\d\d\d\d-\)'
 "let s:remstring = '^\s*\(:\|DEADLINE:\|SCHEDULED:\|CLOSED:\|<\d\d\d\d-\)'
@@ -3581,11 +3581,12 @@ function! s:SetHeadInfo()
     let s:headtext = s:headstars . ' ' . s:headtext[len(s:mystars)+1:]
 endfunction
 
+" TODO Make sure this is not stripping times and time ranges out when it shouldn't.
 function! s:RepeatMatch(rptdate, date1, date2)
     let yearflag = 0
     let basedate = matchstr(a:rptdate,'\d\d\d\d-\d\d-\d\d')
     if basedate >= a:date2
-        " no need for repeat, rturn to check fo deadlien warnings
+        " no need for repeat, return to check for deadline warnings
         return [basedate]
     endif
     let date1 = a:date1
