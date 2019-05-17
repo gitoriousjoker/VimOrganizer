@@ -1287,10 +1287,10 @@ You can enter values for g:agenda_files in your vimrc, e.g.,
 
 There is a bare-bones agenda-editing mechanism that works like this:
 
-   (1) Put your .org working directories in list g:agenda_dirs.  Mine is in my
+   (1) Put your .org working directories in list g:org_agenda_select_dirs.  Mine is in my
        vimrc and includes a single directory:
 >
-       :let g:agenda_dirs=["c:/users/herbert/documents/org-files"]
+       :let g:org_agenda_select_dirs=["c:/users/herbert/documents/org-files"]
 
    (2) Then to edit your agenda files issue this command  
 >
