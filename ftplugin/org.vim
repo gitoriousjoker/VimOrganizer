@@ -5,10 +5,10 @@
 " Last Change: 2011 Nov 02
 "
 " Script: http://www.vim.org/scripts/script.php?script_id=3342
-" Github page: http://github.com/hsitz/VimOrganizer 
+" Github page: http://github.com/hsitz/VimOrganizer
 " Copyright: (c) 2010, 2011 by Herbert Sitz
 " The VIM LICENSE applies to all files in the
-" VimOrganizer plugin.  
+" VimOrganizer plugin.
 " (See the Vim copyright except read "VimOrganizer"
 " in places where that copyright refers to "Vim".)
 " http://vimdoc.sourceforge.net/htmldoc/uganda.html#license
@@ -48,8 +48,8 @@ let b:v.heading_marks = []
 let b:v.heading_marks_dict = {}
 let w:v.total_columns_width = 30
 let w:v.columnview = 0
-let w:v.org_item_len = 100 
-let w:v.org_colview_list = [] 
+let w:v.org_item_len = 100
+let w:v.org_colview_list = []
 let w:v.org_current_columns = ''
 let w:v.org_column_item_head = ''
 let b:v.chosen_agenda_heading = 0
@@ -60,8 +60,8 @@ let b:v.buffer_category = ''
 if !exists('g:org_agenda_default_search_spec')
     let g:org_agenda_default_search_spec = 'ANY_TODO'
 endif
-if exists('g:global_column_defaults') 
-    let b:v.buffer_columns = g:global_column_defaults 
+if exists('g:global_column_defaults')
+    let b:v.buffer_columns = g:global_column_defaults
 else
     let b:v.buffer_columns = '%40ITEM %30TAGS'
 endif
@@ -89,16 +89,16 @@ hi MatchGroup guibg=yellow guifg=black
 
 setlocal ignorecase         " searches ignore case
 setlocal smartcase          " searches use smart case
-setlocal autoindent 
+setlocal autoindent
 setlocal fileformat=unix
 setlocal backspace=2
 setlocal nowrap
 setlocal tw=78
 setlocal expandtab
 setlocal nosmarttab
-setlocal softtabstop=0 
-setlocal foldcolumn=1 
-setlocal tabstop=4   
+setlocal softtabstop=0
+setlocal foldcolumn=1
+setlocal tabstop=4
 setlocal shiftwidth=4
 setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\\-\\s\\+
 if has("conceal")
@@ -126,16 +126,16 @@ if !exists('g:org_loaded')
 execute "runtime ftplugins/vo_checkbox.vim"
 
 " set calfunc depending on which calendar version installed
-if exists(':Calendar')==2 
-    if exists('*Calendar')>0 
+if exists(':Calendar')==2
+    if exists('*Calendar')>0
         let s:Calfunc=function('Calendar')
     else " we have to assume it's more recent version
         let s:Calfunc=function('calendar#show')
     endif
-    if !exists('g:calendar_navi') 
+    if !exists('g:calendar_navi')
         let g:calendar_navi=''
-    endif    
-endif    
+    endif
+endif
 
 function! s:SID()
     return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
@@ -147,7 +147,7 @@ function! OrgSID(func)
 endfunction
 
 if !exists('g:org_custom_column_options')
-    let g:org_custom_column_options = ['%ITEM %15DEADLINE %35TAGS', '%ITEM %35TAGS'] 
+    let g:org_custom_column_options = ['%ITEM %15DEADLINE %35TAGS', '%ITEM %35TAGS']
 endif
 
 if !exists('g:org_command_for_emacsclient') && (has('unix') || has('macunix'))
@@ -250,20 +250,20 @@ let s:last_search_list = []
 "testing stuff
 function! CustomSearchesSetup()
     let g:org_custom_searches = [
-                \    { 'name':"Next week's agenda", 'type':'agenda', 
+                \    { 'name':"Next week's agenda", 'type':'agenda',
                 \                'agenda_date':'+1w','agenda_duration':'w'}
-                \    ,{ 'name':"Next week's TODOS", 'type':'agenda', 
+                \    ,{ 'name':"Next week's TODOS", 'type':'agenda',
                 \                'agenda_date':'+1w','agenda_duration':'w','spec':'+UNFINISHED_TODOS'}
                 \    , { 'name':'Home tags', 'type':'tags', 'spec':'+HOME'}
                 \    , { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME'}
-                \    , [ { 'name':"Next week's agenda", 'type':'agenda', 
+                \    , [ { 'name':"Next week's agenda", 'type':'agenda',
                 \                'agenda_date':'+1w','agenda_duration':'w'}
                 \        ,{ 'name':'Home tags', 'type':'tags', 'spec':'+HOME'}
-                \      ]   
+                \      ]
                 \    ,  [ { 'name':'Home tags', 'type':'tags', 'spec':'+HOME'}
-                \        ,{ 'name':"Next week's agenda", 'type':'agenda', 
+                \        ,{ 'name':"Next week's agenda", 'type':'agenda',
                 \                'agenda_date':'+1w','agenda_duration':'w'}
-                \      ]   
+                \      ]
                 \           ]
 endfunction
 function! s:RunCustom(search)
@@ -274,7 +274,7 @@ function! s:RunCustom(search)
     else
         let search_spec = a:search
     endif
-    
+
     if !exists("g:agenda_files") || (g:agenda_files == [])
         if has('dialog_con') || has('dialog_gui')
             unsilent call confirm("No agenda files defined.  Will add current file to agenda files.")
@@ -311,7 +311,7 @@ function! s:RunCustom(search)
             let end_line = test_end > 0 ? test_end - 1 : line('$')
             silent exec start_line . ',' . end_line . 'delete'
             call append(start_line - 1,['',''])  " append to agenda buf
-            let s:agenda_insert_point = start_line 
+            let s:agenda_insert_point = start_line
         elseif len(this_time_list) == 1
             silent exec '%d'
             let s:agenda_insert_point = 1
@@ -322,7 +322,7 @@ function! s:RunCustom(search)
 
     let i = 0
     for item in this_time_list
-        if i > 0 
+        if i > 0
             call append(line('$'),['',repeat('=',70),'',''])  " append to agenda buf
             let s:agenda_insert_point = line('$')
         endif
@@ -331,14 +331,14 @@ function! s:RunCustom(search)
             let mydate = DateCueResult( get(mydict,'agenda_date',''), s:Today())
             let mydur = get(mydict, 'agenda_duration','w')
             let mydur = (mydur == 'w') ? '7' : (mydur == 'd' ? '1' : mydur)
-            
-            call OrgRunAgenda( mydate, 
+
+            call OrgRunAgenda( mydate,
                             \  get(mydict, 'agenda_duration', 'w'),
                             \  get(mydict, 'spec','')  )
             let save_line = line('.')
             let last_line = search('^============','W','') - 1
             exec (last_line <= 0) ? line('$') : last_line
-            if (g:org_agenda_include_clocktable == 1) 
+            if (g:org_agenda_include_clocktable == 1)
                 call append(line('.'),OrgGetClocktable(g:agenda_files,' :narrow 40! :tstart ' . '"<' . mydate . ' xxx 00:00>" :tend "<' . calutil#cal(calutil#jul(mydate) + mydur ) . ' xxx 00:00>" :link ')[3:-3])
             endif
             exec save_line
@@ -356,14 +356,14 @@ function! s:RunCustom(search)
     endfor
     set foldlevel=999
     execute s:agenda_insert_point
-    nohl   
+    nohl
 endfunction
 "Section Tag and Todo Funcs
 function! OrgProcessConfigLines()
     let b:v.org_config_lines = []
     let b:v.todoitems = []
     silent g/^#+/call add( b:v.org_config_lines, getline(line('.')) )
-    
+
     " clear out for new tag settings
     let b:v.tagdict = {}
     let b:v.buf_tags_static_spec = ''
@@ -374,7 +374,7 @@ function! OrgProcessConfigLines()
     else
         let b:v.dynamic_tags=0
     endif
-    
+
     for line in b:v.org_config_lines
         if line =~ '^#+CATEGORY'
             let b:v.buffer_category = matchstr( line ,'^#+CATEGORY:\s*\zs.*')
@@ -389,7 +389,7 @@ function! OrgProcessConfigLines()
                silent! exec "let b:v." . item . "=1"
             endfor
         elseif line =~ '#+TAGS:'
-            let newtags = matchstr( line, '#+TAGS:\s*\zs.*') 
+            let newtags = matchstr( line, '#+TAGS:\s*\zs.*')
             if newtags ==# ''
                 let b:v.dynamic_tags = 1
             else
@@ -443,7 +443,7 @@ function! OrgTodoConvert(orgtodo)
     let temp_list = split(a:orgtodo,'\s\+')
 
     for item in temp_list
-        if item == '|' 
+        if item == '|'
             continue
         endif
         let b:v.tododict[item] = {}
@@ -464,7 +464,7 @@ function! OrgTodoConvert(orgtodo)
         for item in temp_list
            if item != '|'
                 call add(sublist,item)
-           elseif (item ==? '|') 
+           elseif (item ==? '|')
                call add(todolist,sublist)
                let sublist = []
            endif
@@ -475,7 +475,7 @@ function! OrgTodoConvert(orgtodo)
                 call add(sublist,item)
             elseif (item != '|') && (after_bar == 0)
                 call add(todolist,item)
-           elseif (item ==? '|') 
+           elseif (item ==? '|')
                let sublist = []
                let after_bar = 1
             endif
@@ -486,7 +486,7 @@ function! OrgTodoConvert(orgtodo)
     endif
     return todolist
 endfunction
-        
+
 function! OrgTodoSetup(todolist_str)
     let todolist = OrgTodoConvert(a:todolist_str)
     let b:v.todo_setup = a:todolist_str
@@ -499,7 +499,7 @@ function! OrgTodoSetup(todolist_str)
     let b:v.todoNotDoneMatch=''
     let b:v.todoDoneMatch=''
     let i = 0
-    while i < len(todolist) 
+    while i < len(todolist)
         if type(todolist[i]) == type('abc')
             let thistodo = matchstr(todolist[i],'.*ze(.)')
             let thistodo = b:v.tododict[todolist[i]].todotext
@@ -565,7 +565,7 @@ function! s:CurfileAgenda()
 endfunction
 
 function! OrgTagSetup(tagspec)
-       let b:v.tags = split(tr(a:tagspec,'{}','  '),'\s\+') 
+       let b:v.tags = split(tr(a:tagspec,'{}','  '),'\s\+')
        for item in b:v.tags
             if item =~ '('
                 let char = matchstr(item,'(\zs.\ze)')
@@ -573,7 +573,7 @@ function! OrgTagSetup(tagspec)
             else
                 "find an unused character
                 let char = ''
-                let tag = item   
+                let tag = item
                 let i = 0
                 while i < len(item)
                     "if !has_key(chardict, item[i])
@@ -641,9 +641,9 @@ function! OrgTagsEdit(...)
     else
         call s:SetDynamicTags()
     endif
-    
+
     let heading_tags = get(s:GetProperties(lineno,0,file),'TAGS','')
-    
+
     let new_heading_tags = s:TagMenu(heading_tags)
     if new_heading_tags != heading_tags
             silent call s:SetProp('tags',new_heading_tags,lineno, file)
@@ -652,7 +652,7 @@ endfunction
 
 function! s:TagMenu(heading_tags)
     let heading_tags = a:heading_tags
-    
+
     let tagstring = ''
     let tagchars = ''
     for item in b:v.tags_order
@@ -686,14 +686,14 @@ function! s:TagMenu(heading_tags)
             endif
             "if (g:org_tag_group_arrange == 0) || (newgroup != oldgroup) || (newgroup == 0 ) || (b:v.tags_order[curindex+1] ==? '\n')
             if (curindex == 0) || (b:v.tags_order[curindex-1] ==? '\n') || (winwidth(0) - (items_in_row*20) < 20)
-                echo repeat(' ',3) . '[' | echohl Question | echon select | echohl None | echon '] ' 
+                echo repeat(' ',3) . '[' | echohl Question | echon select | echohl None | echon '] '
                 echohl None | echon b:v.tagdict[item].tag | echohl Title | echon '('.b:v.tagdict[item].char.')' | echohl None
                 let nextindent = repeat(' ',12-len(b:v.tagdict[item].tag))
                 let items_in_row = 1
-            else    
-                "echon repeat(' ',3) . 
+            else
+                "echon repeat(' ',3) .
                 echon nextindent
-                echon '[' | echohl Question | echon select | echohl None | echon '] ' 
+                echon '[' | echohl Question | echon select | echohl None | echon '] '
                 echohl None | echon b:v.tagdict[item].tag | echohl Title | echon '('.b:v.tagdict[item].char.')' | echohl None
                 let nextindent = repeat(' ',12-len(b:v.tagdict[item].tag))
                 let items_in_row += 1
@@ -702,7 +702,7 @@ function! s:TagMenu(heading_tags)
             let oldgroup = b:v.tagdict[item].exgroup
         endfor
         echo ""
-            "echohl LineNr | echon 'Date+time ['.basedate . ' '.basetime.']: ' 
+            "echohl LineNr | echon 'Date+time ['.basedate . ' '.basetime.']: '
             "echohl None | echon cue.'_   =>' | echohl WildMenu | echon ' '.newdate.' '.newtime
             let nchar = getchar()
             let newchar = nr2char(nchar)
@@ -718,8 +718,8 @@ function! s:TagMenu(heading_tags)
                 hi Cursor guibg=gray
                 redraw
                 return a:heading_tags
-            elseif (match(tagchars,newchar) >= 0) 
-                if (match(tagstring,newchar) == -1) 
+            elseif (match(tagchars,newchar) >= 0)
+                if (match(tagstring,newchar) == -1)
                     let tagstring .= newchar
                     " check for mutually exclusve tags
                     for item in keys(b:v.tagdict)
@@ -740,7 +740,7 @@ function! s:TagMenu(heading_tags)
 
     hi Cursor guibg=gray
     redraw
-    echo 
+    echo
     set more
 
     let heading_tags = ''
@@ -785,7 +785,7 @@ function! s:SetDynamicTags()
         for item in dup_list
             call remove( taglist, index(taglist, item) )
         endfor
-        let setup_string =  static_tags . ' ' . join(taglist) 
+        let setup_string =  static_tags . ' ' . join(taglist)
     else
         let setup_string = static_tags
     endif
@@ -793,9 +793,9 @@ function! s:SetDynamicTags()
     call OrgTagSetup( setup_string )
 
 endfunction
-        
+
 function! s:GetBufferTags()
-    let save_cursor = getpos(".") 
+    let save_cursor = getpos(".")
     let b:v.buftagdict = {}
     " call addtags for each headline in buffer
     g/^\*/call s:AddTagsToDict(line("."))
@@ -807,7 +807,7 @@ noremap <F5> A<C-R>=OrgEffort()<CR>
 function! OrgEffort()
     if getline(line('.'))=~':Effort:'
         call setline(line('.'), substitute(getline(line('.')),'ort:\zs.*','',''))
-        normal A  
+        normal A
         call complete(col('.'),b:v.effort)
     endif
     return ''
@@ -860,7 +860,7 @@ function! s:TagInput(line)
     let linetags = s:GetTagList(a:line)
     if empty(linetags)
         call append(a:line,':')
-    endif   
+    endif
     let buftags = s:GetBufferTags()
     let displaytags = deepcopy(buftags)
     call insert(displaytags,'  Exit Menu')
@@ -869,8 +869,8 @@ function! s:TagInput(line)
         call add(curstatus,0)
         let i = 1
         let linetags = s:GetTagList(a:line)
-        while i < len(buftags) + 1 
-            if index(linetags, buftags[i-1]) >= 0 
+        while i < len(buftags) + 1
+            if index(linetags, buftags[i-1]) >= 0
                 let cbox = '[ X ]'
                 call add(curstatus,1)
             else
@@ -895,8 +895,8 @@ function! s:TagInput(line)
             normal V
         endif
         "call insert(displaytags,'Choose tags below:')
-        "let key = inputlist(displaytags) - 1 
-        let taglist = join(displaytags,"\n") 
+        "let key = inputlist(displaytags) - 1
+        let taglist = join(displaytags,"\n")
         set guioptions+=v
         let key = confirm('Choose tags:',taglist)-1
         set guioptions-=v
@@ -923,7 +923,7 @@ function! s:TagInput(line)
     if empty(s:GetTagList(a:line))
         execute a:line+1 .'d'
         execute a:line
-    endif   
+    endif
 endfunction
 
 function! s:UnconvertTags(line)
@@ -936,14 +936,14 @@ function! <SID>GlobalUnconvertTags(state)
         let s:save_cursor = getpos(".")
         let s:last_changenr = a:state
         mkview
-        normal A 
+        normal A
         g/^\*\+\s/call s:UnconvertTags(line("."))
         silent! %s/^\(\s*\):\(DEADLINE\|SCHEDULED\|CLOSED\|CLOCK\|<\d\d\d\d-\d\d-\d\d\)/\1\2/
     endif
 endfunction
 function! <SID>UndoUnconvertTags()
     if exists('g:org_emacs_autoconvert') && (g:org_emacs_autoconvert != 0)
-        silent exec 'undo ' . s:last_changenr 
+        silent exec 'undo ' . s:last_changenr
         silent undo
         loadview
         call setpos(".",s:save_cursor)
@@ -976,8 +976,8 @@ function! s:FormatTags(line)
         let linetags = tagmatch[1]
         s/\s\+:.*:\s*$//
         " add newtags back in, including new tag
-        call setline(a:line,getline(a:line) . '    ' 
-                    \ . repeat(' ', winwidth(0) - len(getline(a:line)) - len(linetags) - 15) 
+        call setline(a:line,getline(a:line) . '    '
+                    \ . repeat(' ', winwidth(0) - len(getline(a:line)) - len(linetags) - 15)
                     \ . linetags)
     endif
 endfunction
@@ -1001,7 +1001,7 @@ function! OrgSequenceTodo(line,...)
         endif
     endif
     let linetext = getline(a:line)
-    if (linetext =~ s:org_headMatch) 
+    if (linetext =~ s:org_headMatch)
         " get first word in line and its index in todoitems
         let tword = matchstr(linetext,'\*\+\s\+\zs\S\+\ze')
         if a:0 == 1
@@ -1077,7 +1077,7 @@ function! OrgTodoDashboard(...)
         echo " d         mark current heading with main 'finished' state"
         "if bufname("%") !=? ('__Agenda__')
             let i = 1
-            for item in b:v.todoitems 
+            for item in b:v.todoitems
                 echo ' ' . i . '   mark current heading as ' . item
                 let i += 1
             endfor
@@ -1089,7 +1089,7 @@ function! OrgTodoDashboard(...)
     endif
     "let thisline = getline(line('.'))
     "let curTodo = matchstr(thisline, '\*\+ \zs\S\+')
-    
+
     if key =~? 'f\|n'
         call Replace_func()
     elseif key =~? 'b\|p'
@@ -1126,7 +1126,7 @@ function! s:AgendaReplaceTodo(...)
 
     for item in sort(keys(b:v.heading_marks_dict), 's:ReverseSort')
         " go to the line first, then process
-        exec item   
+        exec item
         let file = s:filedict[str2nr(matchstr(getline(line('.')), '^\d\d\d'))]
         let b:v.fulltodos = getbufvar(file,'v').fulltodos
         let b:v.todoitems = getbufvar(file,'v').todoitems
@@ -1196,7 +1196,7 @@ function! s:ReplaceTodo(...)
     if newtodo ># ''
         let newtodo .= ' '
     endif
-    if (index(b:v.todoitems,todoword) >= 0) 
+    if (index(b:v.todoitems,todoword) >= 0)
         if newtodo ># ''
             let newline = substitute(getline(line(".")),
                         \ '\* ' . todoword.' ',
@@ -1208,7 +1208,7 @@ function! s:ReplaceTodo(...)
         endif
     else
         let newline = substitute(getline(line(".")),
-                    \ '\zs\* \ze\S\+', 
+                    \ '\zs\* \ze\S\+',
                     \ '\* ' . newtodo ,'g')
     endif
 
@@ -1278,11 +1278,11 @@ function! s:OrgSubtreeLastLine_l(line)
         return line("$")
     endif
     let l:starthead = s:OrgGetHead_l(a:line)
-    let l:stars = s:Starcount(l:starthead) 
-    let l:mypattern = substitute(b:v.headMatchLevel,'level', '1,'.l:stars, "")    
-    let l:lastline = s:Range_Search(l:mypattern,'nW', line("$"), l:starthead) 
+    let l:stars = s:Starcount(l:starthead)
+    let l:mypattern = substitute(b:v.headMatchLevel,'level', '1,'.l:stars, "")
+    let l:lastline = s:Range_Search(l:mypattern,'nW', line("$"), l:starthead)
     " lastline now has NextHead on abs basis so return end of subtree
-    if l:lastline != 0 
+    if l:lastline != 0
         let l:lastline -= 1
     else
         let l:lastline = line("$")
@@ -1298,12 +1298,12 @@ function! s:HasAncestorHeadOf(line,ancestor)
     elseif (a:line == a:ancestor)
         let result = 1
     else
-        let test_ancestor = s:OrgParentHead_l(a:line) 
+        let test_ancestor = s:OrgParentHead_l(a:line)
         while 1
             if (test_ancestor == a:ancestor)
                let result = 1
                break
-            elseif test_ancestor < ultimate 
+            elseif test_ancestor < ultimate
                let result = 0
                break
             endif
@@ -1338,7 +1338,7 @@ function! s:OrgParentHead_l(line)
     " todo -- get b:v.levelstars in here
     let l:starthead = s:OrgGetHead_l(a:line)
     let l:parentheadlevel = s:Starcount(l:starthead) - b:v.levelstars
-    if l:parentheadlevel <= 0 
+    if l:parentheadlevel <= 0
         return 0
     else
         let l:mypattern = substitute(b:v.headMatchLevel,'level',l:parentheadlevel,'')
@@ -1348,7 +1348,7 @@ endfunction
 
 
 function! s:Range_Search(stext, flags, ...)
-    " searches range, restores cursor to 
+    " searches range, restores cursor to
     " beginning position, and returns
     " first occurrence of pattern
     let save_cursor = getpos(".")
@@ -1356,7 +1356,7 @@ function! s:Range_Search(stext, flags, ...)
     if a:0 == 2
         let l:stopline = a:1
         " go to startline
-        execute a:2 
+        execute a:2
         normal! $
     elseif a:0 == 1
         let l:stopline = a:1
@@ -1373,7 +1373,7 @@ function! s:OrgGetHead()
 endfunction
 
 function! s:OrgGetHead_l(line)
-    if s:IsText(a:line)   
+    if s:IsText(a:line)
         return s:Range_Search(b:v.headMatch,'nb', 1, a:line)
     else
         return a:line
@@ -1390,7 +1390,7 @@ function! s:OrgPrevSiblingHead_l(line)
         let upperline = 0
     endif
     let sibline = s:OrgPrevHeadSameLevel_l(a:line)
-    if (sibline <= upperline) 
+    if (sibline <= upperline)
         let sibline = 0
     endif
     return sibline
@@ -1406,7 +1406,7 @@ function! s:OrgNextSiblingHead_l(line)
         let lastline = line("$")
     endif
     let sibline = s:OrgNextHeadSameLevel_l(a:line)
-    if (sibline > lastline) 
+    if (sibline > lastline)
         let sibline = 0
     endif
     return sibline
@@ -1439,8 +1439,8 @@ function! s:OrgNextHeadSameLevel()
 endfunction
 
 function! s:OrgNextHeadSameLevel_l(line)
-    let level = s:Starcount(a:line) 
-    let mypattern = substitute(b:v.headMatchLevel,'level', level, "") 
+    let level = s:Starcount(a:line)
+    let mypattern = substitute(b:v.headMatchLevel,'level', level, "")
     let foundline = s:Range_Search(mypattern,'nW', line("$"), a:line)
     if foundline < line ("$")
         return foundline
@@ -1450,7 +1450,7 @@ function! s:OrgNextHeadSameLevel_l(line)
         else
             return 0
         endif
-    endif       
+    endif
 endfunction
 
 function! s:OrgPrevHeadSameLevel()
@@ -1459,7 +1459,7 @@ function! s:OrgPrevHeadSameLevel()
 endfunction
 function! s:OrgPrevHeadSameLevel_l(line)
     let l:level = s:Starcount(a:line)
-    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "") 
+    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "")
     let foundline = s:Range_Search(mypattern,'nbW', 1, a:line-1)
     if foundline > 1
         return foundline
@@ -1469,7 +1469,7 @@ function! s:OrgPrevHeadSameLevel_l(line)
         else
             return 0
         endif
-    endif       
+    endif
 
 endfunction
 
@@ -1482,10 +1482,10 @@ function! s:OrgFirstChildHead_l(line)
 
     let l:level = s:Starcount(l:starthead) + 1
     let l:nexthead = s:OrgNextHeadSameLevel_l(l:starthead)
-    if l:nexthead == 0 
-        let l:nexthead = line("$") 
+    if l:nexthead == 0
+        let l:nexthead = line("$")
     endif
-    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "") 
+    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "")
     return s:Range_Search(l:mypattern,'nW',l:nexthead, l:starthead)
 endfunction
 
@@ -1501,11 +1501,11 @@ function! s:OrgLastChildHead_l(line)
     let l:level = s:Starcount(l:starthead) + 1
 
     let l:nexthead = s:OrgNextHeadSameLevel_l(l:starthead)
-    if l:nexthead == 0 
-        let l:nexthead = line("$") 
+    if l:nexthead == 0
+        let l:nexthead = line("$")
     endif
 
-    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "") 
+    let l:mypattern = substitute(b:v.headMatchLevel,'level', l:level, "")
     return s:Range_Search(l:mypattern,'nbW',l:starthead, l:nexthead)
 
 endfunction
@@ -1515,7 +1515,7 @@ function! s:MyLastChild(line)
     let l:parentindent = s:Ind(a:line)
     if s:IsText(a:line+1)
         let l:searchline = s:NextLevelLine(a:line+1)
-    else    
+    else
         let l:searchline = a:line+1
     endif
     while s:Ind(l:searchline) > l:parentindent
@@ -1550,9 +1550,9 @@ function! s:FoldStatus(line)
         let l:status = 'infold'
     elseif l:fc == a:line
         let l:status = 'foldhead'
-    endif   
+    endif
     return l:status
-endfunction 
+endfunction
 
 function! OrgEnterFunc()
     let syn_items = synstack(line('.'),col('.'))
@@ -1563,7 +1563,7 @@ function! OrgEnterFunc()
         call OrgNewHead('same')
     endif
 endfunction
-        
+
 function! OrgNewHead(type,...)
     " adds new heading or text level depending on type
     if a:0 == 1
@@ -1574,12 +1574,12 @@ function! OrgNewHead(type,...)
     let l:linebegin = matchlist(getline(line(".")),'^\(\**\s*\)')[1]
     if s:IsText(line(".")) == 0
 
-        let l:lastline  = s:OrgSubtreeLastLine()  
+        let l:lastline  = s:OrgSubtreeLastLine()
         if a:type ==? 'levelup'
             let l:linebegin = substitute(l:linebegin,'^\*\{'.b:v.levelstars.'}','','')
         elseif a:type ==? 'leveldown'
             let l:linebegin = substitute(l:linebegin,'^\*',repeat('*',b:v.levelstars+1),'')
-        endif   
+        endif
         call append( l:lastline ,l:linebegin)
         execute l:lastline + 1
         startinsert!
@@ -1591,8 +1591,8 @@ endfunction
 function! s:IsText(line)
     " checks for whether line is any kind of text block
     " test if line matches all-inclusive text block pattern
-    return (getline(a:line) !~ b:v.headMatch) && (a:line <= line('$')) 
-endfunction 
+    return (getline(a:line) !~ b:v.headMatch) && (a:line <= line('$'))
+endfunction
 
 function! s:NextLevelAbs(line)
     " Return line of next heading
@@ -1603,8 +1603,8 @@ function! s:NextLevelAbs(line)
         let l:i = l:i + 1
         "if (a:line + l:i) == line("$")
         :"  return 0
-        "endif  
-    endwhile    
+        "endif
+    endwhile
     return a:line + l:i
 endfunction
 
@@ -1614,9 +1614,9 @@ function! s:NextLevelLine(line)
     if l:fend == -1
         let l:i = 1
         " go down to next non-text line
-        while s:IsText(a:line + l:i) 
+        while s:IsText(a:line + l:i)
             let l:i = l:i + 1
-        endwhile    
+        endwhile
         return a:line + l:i
     else
         return l:fend+1
@@ -1626,40 +1626,40 @@ endfunction
 function! s:HasChild(line)
     " checks for whether heading line has
     " a sublevel
-    " checks to see if heading has a non-text sublevel 
+    " checks to see if heading has a non-text sublevel
     let nh = s:OrgNextHead_l(a:line)
-    if nh == 0 
+    if nh == 0
         return 0
     else
         return (s:Ind(nh) > s:Ind(a:line))
     endif
-    
-"    if s:IsText(a:line + 1) && 
+
+"    if s:IsText(a:line + 1) &&
 "                \   (s:Ind(s:NextLevelLine(a:line+1)) > s:Ind(a:line))
 "        return 1
-"    elseif s:IsText(a:line + 1) == 0 && 
+"    elseif s:IsText(a:line + 1) == 0 &&
 "                \   (s:Ind(s:NextLevelLine(a:line)) > s:Ind(a:line))
 "        return 1
 "    else
-"        return 0    
-"    endif   
+"        return 0
+"    endif
 endfunction
 
-function! s:DoFullCollapse(line) 
+function! s:DoFullCollapse(line)
     let lastline = s:OrgSubtreeLastLine_l(a:line)
-    if lastline == a:line 
+    if lastline == a:line
         return
     else
         while foldclosedend(a:line) < lastline
             normal! zc
         endwhile
     endif
-    " make sure headline is not just 
+    " make sure headline is not just
     " text collapse
     " test if line matches all-inclusive text block pattern
  "   while foldclosed(a:line) == -1 && (s:HasChild(a:line) || s:IsText(a:line+1))
  "       normal! zc
- "   endwhile       
+ "   endwhile
  "   if s:IsTextOnlyFold(a:line) && s:HasChild(a:line)
  "       normal! zc
  "       if s:IsTextOnlyFold(a:line) && s:HasChild(a:line)
@@ -1667,24 +1667,24 @@ function! s:DoFullCollapse(line)
  "           if s:IsTextOnlyFold(a:line) && s:HasChild(a:line)
  "               normal! zc
  "           endif
- "       endif   
- "   endif   
+ "       endif
+ "   endif
 endfunction
 
 function! s:IsTextOnlyFold(line)
     " checks for whether heading line has full fold
     " or merely a text fold
-    "if s:IsText(a:line + 1) && (foldclosed(a:line + 1) == a:line) 
+    "if s:IsText(a:line + 1) && (foldclosed(a:line + 1) == a:line)
     if s:IsText(a:line + 1) && (foldclosedend(a:line) > 0)
                 \    && (s:Ind(foldclosedend(a:line)) <= s:Ind(a:line))
         return 1
     else
         return 0
-    endif   
+    endif
 endfunction
 
 function! s:MaxVisIndent(headingline)
-    " returns max indent for 
+    " returns max indent for
     " visible lines in a heading's subtree
     " used by ShowSubs
     let l:line = a:headingline
@@ -1693,16 +1693,16 @@ function! s:MaxVisIndent(headingline)
     let l:maxi = s:Ind(l:line)
     let l:textflag = 0
     while l:line <= l:endline
-        if (s:Ind(l:line) > l:maxi) && 
-                    \   ( foldclosed(l:line) == l:line 
+        if (s:Ind(l:line) > l:maxi) &&
+                    \   ( foldclosed(l:line) == l:line
                     \  || foldclosed(l:line) == -1  )
             let l:maxi = s:Ind(l:line)
             if s:IsText(l:line)
                 let l:textflag = 1
-            endif   
+            endif
         endif
         let l:line = l:line + 1
-    endwhile    
+    endwhile
     return l:maxi + l:textflag
 endfunction
 
@@ -1711,21 +1711,21 @@ function! OrgShowLess(headingline)
     let l:maxi = s:MaxVisIndent(a:headingline)
     let l:offset = l:maxi - s:Ind(a:headingline)
     echo 'offset:  ' . l:offset
-    if l:offset > 1 
+    if l:offset > 1
         call s:ShowSubs(l:offset - 1,0)
     elseif l:offset == 1
         normal zc
         "normal! zc
-    endif   
+    endif
 endfunction
 
 
 function! OrgShowMore(headingline)
-    " expands headings at furthest out 
+    " expands headings at furthest out
     " visible level in a heading's subtree
     let l:maxi = s:MaxVisIndent(a:headingline)
     let l:offset = l:maxi - s:Ind(a:headingline)
-    if l:offset >= 0 
+    if l:offset >= 0
         call s:ShowSubs(l:offset + 1,0)
         if l:maxi == s:MaxVisIndent(a:headingline)
             "call OrgSingleHeadingText('expand')
@@ -1741,7 +1741,7 @@ function! OrgShowSubs(number,withtext)
     endif
     let cur_level = s:Ind(line('.')) - 1
     if a:number > cur_level
-        let rel_level = a:number - cur_level 
+        let rel_level = a:number - cur_level
         if rel_level >= 1
              call s:ShowSubs(rel_level  ,0)
          endif
@@ -1752,7 +1752,7 @@ function! OrgShowSubs(number,withtext)
 endfunction
 
 function! s:ShowSubs(number,withtext)
-    " shows specif number of levels down from current 
+    " shows specif number of levels down from current
     " heading, includes text
     " or merely a text fold
     let save_cursor = getpos(".")
@@ -1770,7 +1770,7 @@ function! s:ShowSubs(number,withtext)
     endif
     if a:withtext == 0
         call OrgSingleHeadingText('collapse')
-    endif   
+    endif
 
     call setpos(".",save_cursor)
 endfunction
@@ -1798,7 +1798,7 @@ function! OrgMoveLevel(line, direction,...)
             let lasthead = l:headabove
             let l:headabove = s:OrgPrevSiblingHead_l(l:headabove)
             if l:headabove  > 0
-                let count_message = 'Moved up ' . i . ' levels.' 
+                let count_message = 'Moved up ' . i . ' levels.'
             elseif i == 1
                 " break with no message here
                 break
@@ -1808,7 +1808,7 @@ function! OrgMoveLevel(line, direction,...)
                 break
             endif
         endfor
-        if l:headabove > 0 
+        if l:headabove > 0
             let l:lines = getline(line("."), lastline)
             call s:DoFullCollapse(a:line)
             silent normal! dd
@@ -1826,7 +1826,7 @@ function! OrgMoveLevel(line, direction,...)
             let lasthead = l:headbelow
             let l:headbelow = s:OrgNextSiblingHead_l(l:headbelow)
             if l:headbelow  > 0
-                let count_message = 'Moved down ' . i . ' levels.' 
+                let count_message = 'Moved down ' . i . ' levels.'
             elseif i == 1
                 " break with no message here
                 break
@@ -1836,7 +1836,7 @@ function! OrgMoveLevel(line, direction,...)
                 break
             endif
         endfor
-        if l:headbelow > 0 
+        if l:headbelow > 0
             let endofnext = s:OrgSubtreeLastLine_l(l:headbelow)
             let lines = getline(line("."),lastline)
             silent call append(endofnext,lines)
@@ -1849,11 +1849,11 @@ function! OrgMoveLevel(line, direction,...)
             normal g'a
             call s:ShowSubs(1,0)
             echo count_message
-        else 
+        else
             echo "No sibling below in this subtree."
         endif
     elseif a:direction ==? 'left'
-        if s:Ind(a:line) > 2 
+        if s:Ind(a:line) > 2
             " first move to be last sibling
             let movetoline = s:OrgSubtreeLastLine_l(s:OrgParentHead_l(a:line))
             let lines = getline(line("."),lastline)
@@ -1872,9 +1872,9 @@ function! OrgMoveLevel(line, direction,...)
             normal g'a
             call s:ShowSubs(1,0)
             execute line(".")
-        else 
+        else
             echo "You're already at main heading level."
-        endif       
+        endif
     elseif a:direction ==? 'right'
         if s:Ind(s:OrgPrevHead_l(a:line)) >= s:Ind(a:line)
             execute a:line . ',' . lastline . 's/^\*/'.repeat('\*',b:v.levelstars+1).'/'
@@ -1883,25 +1883,25 @@ function! OrgMoveLevel(line, direction,...)
             call s:ShowSubs(1,0)
         else
             echo "Already at lowest level of this subtree."
-        endif   
+        endif
     endif
 endfunction
 
 function! OrgNavigateLevels(direction)
-    " Move among headings 
+    " Move among headings
     " direction: "up", "down", "right", "left","end", or 'home'
     if s:IsText(line("."))
         exec s:OrgGetHead()
-        return  
+        return
     endif
 
-    if s:Ind(line(".")) > 0 
+    if s:Ind(line(".")) > 0
         let lowerlimit = s:OrgParentHead()
         let upperlimit = s:OrgSubtreeLastLine_l(lowerlimit)
     else
         let lowerlimit = 0
         let upperlimit = line("$")
-    endif       
+    endif
 
     if a:direction ==? "left"
         let dest = s:OrgParentHead()
@@ -1925,12 +1925,12 @@ function! OrgNavigateLevels(direction)
         let msg = "Can't go down more."
     endif
 
-    let visible = s:IsVisibleHeading(dest) 
-    if (dest > 0) && visible && (dest >= lowerlimit) && (dest <= upperlimit) 
+    let visible = s:IsVisibleHeading(dest)
+    if (dest > 0) && visible && (dest >= lowerlimit) && (dest <= upperlimit)
         execute dest
-    else 
+    else
         echo msg
-    endif   
+    endif
 endfunction
 
 function! OrgHeadingFirstText(headline)
@@ -1961,14 +1961,14 @@ function! OrgUnfoldBodyText(headline)
 endfunction
 
 function! OrgExpandWithoutText(tolevel)
-    " expand all headings but leave Body Text collapsed 
+    " expand all headings but leave Body Text collapsed
     " tolevel: number, 0 to 9, of level to expand to
     "  expand levels to 'tolevel' with all body text collapsed
-    let l:startline = 1 
+    let l:startline = 1
     let l:endline = line("$")
     let l:execstr = "set foldlevel=" . string(a:tolevel  )
     "let l:execstr = "set foldlevel=" . (a:tolevel - 1)
-    exec l:execstr  
+    exec l:execstr
     call OrgBodyTextOperation(l:startline,l:endline,"collapse")
 endfunction
 function! s:OrgExpandSubtree(headline,...)
@@ -2014,17 +2014,17 @@ function! s:OrgCycle(headline)
     if (end>0) && (s:Ind(end+1) <= s:Ind(a:headline))
         call s:OrgExpandHead(a:headline)
         let endline = end
-    elseif ((end == -1) && (s:Ind(s:OrgNextHead_l(a:headline)) > s:Ind(a:headline))          
+    elseif ((end == -1) && (s:Ind(s:OrgNextHead_l(a:headline)) > s:Ind(a:headline))
                 \ && (foldclosed(s:OrgNextHead_l(a:headline)) > 0))
         let nextsamelevel = s:OrgNextHeadSameLevel_l(a:headline)
-        "let nextuplevel = s:OrgNextHeadSameLevel_l(s:OrgParentHead_l(a:headline)) 
-        let nextuplevel = s:OrgNextHeadSameLevel_l(a:headline) 
+        "let nextuplevel = s:OrgNextHeadSameLevel_l(s:OrgParentHead_l(a:headline))
+        let nextuplevel = s:OrgNextHeadSameLevel_l(a:headline)
         if (nextsamelevel > 0) && (nextsamelevel > nextuplevel)
             let endline = nextsamelevel
         elseif nextuplevel > a:headline
             let endline = nextuplevel - 1
-        else 
-            let endline = line('$') 
+        else
+            let endline = line('$')
         endif
         if b:v.cycle_with_text
             call OrgBodyTextOperation(a:headline+1,endline,'expand')
@@ -2067,7 +2067,7 @@ function! OrgGlobalCycle()
         call OrgExpandWithoutText(1)
     elseif &foldlevel == 1
         call OrgExpandWithoutText(b:v.global_cycle_levels_to_show)
-    "elseif (&foldlevel > 1) && ( s:orgskipthirdcycle == 0 ) 
+    "elseif (&foldlevel > 1) && ( s:orgskipthirdcycle == 0 )
     "    let s = getpos('.')
     "    g/^\*\+ /call OrgUnfoldBodyText(line('.'))
     "    call setpos('.',s)
@@ -2084,7 +2084,7 @@ function! s:LastTextLine(headingline)
     " returns last text line of text under
     " a heading, or 0 if no text
     let l:retval = 0
-    if s:IsText(a:line + 1) 
+    if s:IsText(a:line + 1)
         let l:i = a:line + 1
         while s:IsText(l:i)
             let l:i = l:i + 1
@@ -2097,7 +2097,7 @@ endfunction
 function! s:ShowSynStack()
     for id in synstack(line("."),col("."))
         echo synIDattr(id,"name")
-    endfor  
+    endfor
 endfunction
 function! s:SignList()
     let signlist = ''
@@ -2111,7 +2111,7 @@ function! s:DeleteSigns()
     sign unplace *
     let signs = s:SignList()
     for item in signs
-        silent execute "sign undefine " . matchstr(item,'\S\+ \zs\S\+\ze ') 
+        silent execute "sign undefine " . matchstr(item,'\S\+ \zs\S\+\ze ')
     endfor
     sign define piet text=>>
     sign define fbegin text=>
@@ -2170,7 +2170,7 @@ function! s:GetProperties(hl,withtextinfo,...)
     while 1
         let ltext = getline(line)
         if ltext =~ b:v.propMatch
-            let result = s:GetPropVals(line+1)        
+            let result = s:GetPropVals(line+1)
         elseif (ltext =~ '^\s*:\s*CLOCK')
             " do nothing
         elseif  (ltext !~ s:block_line) || (ltext =~ b:v.headMatch)
@@ -2200,7 +2200,7 @@ function! s:GetProperties(hl,withtextinfo,...)
     " *****************************************
     " get last line
     if a:withtextinfo
-        "let result['tbegin'] = line 
+        "let result['tbegin'] = line
         let result['TEND'] = s:OrgNextHead_l(hl) - 1
     endif
     if a:0 >= 1
@@ -2214,7 +2214,7 @@ function! s:GetProperties(hl,withtextinfo,...)
 endfunction
 
 function! s:GetDateVals(line)
-    "result is dict with all date vals 
+    "result is dict with all date vals
     let myline = a:line
     let result = {}
     while 1
@@ -2247,9 +2247,9 @@ function! s:GetDateVals(line)
         try
             "only add if first of dtype encountered
             if get(result,dtype) == 0
-                let result[dtype] = mydate  
+                let result[dtype] = mydate
             endif
-        catch /^Vim\%((\a\+)\)\=:E/ 
+        catch /^Vim\%((\a\+)\)\=:E/
         endtry
         let myline += 1
     endwhile
@@ -2257,7 +2257,7 @@ function! s:GetDateVals(line)
 endfunction
 
 function! s:GetPropVals(line)
-    "result is dict with all prop vals 
+    "result is dict with all prop vals
     let myline = a:line
     let result = {}
     while 1
@@ -2266,8 +2266,8 @@ function! s:GetPropVals(line)
             let mtch = matchlist(ltext, b:v.propvalMatch)
             " mtch[1] is now property, mtch[2] is its value
             try
-                let result[toupper(mtch[1])] = mtch[2]   
-            catch /^Vim\%((\a\+)\)\=:E/ 
+                let result[toupper(mtch[1])] = mtch[2]
+            catch /^Vim\%((\a\+)\)\=:E/
             endtry
         else
             break
@@ -2286,9 +2286,9 @@ function! s:RedoTextIndent()
     while line(".") < line("$")
         let line = getline(line("."))
         if matchstr(line,'^\*\+') ># ''
-            let myindent = len(matchstr(line,'^\*\+')) + g:org_indent_from_head 
+            let myindent = len(matchstr(line,'^\*\+')) + g:org_indent_from_head
             normal j
-        else 
+        else
             let text = matchstr(line,'^ *\zs.*')
             let spaces = len(matchstr(line,'^ *'))
             if (spaces != (myindent + 1)) && (text != '')
@@ -2355,11 +2355,11 @@ endfunction
 function! s:SetRandomTodo()
     let newtodo = b:v.todoitems[s:Random(3)-1]
     if index(b:v.todoitems,matchstr(getline(line('.')),'^\*\+ \zs\S*\ze ')) >= 0
-        call setline(line('.'),matchstr(getline(line('.')),'^\*\+ ') . newtodo . 
-                    \    ' '. matchstr(getline(line('.')),'^\*\+ \S* \zs.*')) 
+        call setline(line('.'),matchstr(getline(line('.')),'^\*\+ ') . newtodo .
+                    \    ' '. matchstr(getline(line('.')),'^\*\+ \S* \zs.*'))
     else
-        call setline(line('.'),matchstr(getline(line('.')),'^\*\+ ') . newtodo . 
-                    \    ' '.  matchstr(getline(line('.')),'^\*\+ \zs.*')) 
+        call setline(line('.'),matchstr(getline(line('.')),'^\*\+ ') . newtodo .
+                    \    ' '.  matchstr(getline(line('.')),'^\*\+ \zs.*'))
     endif
 
 endfunction
@@ -2382,12 +2382,12 @@ endfunction
 function! s:IProp(headline,property)
     let prop = a:property
     let parent = s:OrgParentHead_l(a:headline)
-    if parent == 0 
+    if parent == 0
         return get(b:v.org_inherited_defaults,prop)
     else
         return s:GetProperties(parent,0)[prop]
     endif
-endfunction 
+endfunction
 
 function! OrgMakeDictInherited(...)
     let get_tags = ((a:0==1) && (a:1 =='get_tags_too')) ? 1 : 0
@@ -2412,7 +2412,7 @@ function! OrgMakeDictInherited(...)
             let result = b:v.org_dict.iprop(self[ndx].parent,prop)
         endif
         return result
-    endfunction 
+    endfunction
     execute 1
    let next = 1
    if s:IsText(line('.'))
@@ -2427,8 +2427,8 @@ function! OrgMakeDictInherited(...)
       endif
       let b:v.org_dict[line('.')] = {'parent': parent}
       let next = s:OrgNextHead()
-   endwhile 
-   " parent properties assigned above, now explicity record CATEGORY for 
+   endwhile
+   " parent properties assigned above, now explicity record CATEGORY for
    " any headlines where CATEGORY won't be inherited
    if get_tags == 0
        silent execute 'g/^\s*:CATEGORY:/let b:v.org_dict[s:OrgGetHead()].CATEGORY = matchstr(getline(line(".")),":CATEGORY:\\s*\\zs.*")'
@@ -2468,7 +2468,7 @@ function! OrgMakeDict()
             let result = s:AddTime(result,b:v.org_dict.SumTime(item,prop))
         endfor
         return result
-    endfunction 
+    endfunction
     function! b:v.org_dict.Sum(ndx,property) dict
         let prop = a:property
         let result = get(self[a:ndx].props , prop)
@@ -2477,7 +2477,7 @@ function! OrgMakeDict()
             let result += b:v.org_dict.Sum(item,prop)
         endfor
         return result
-    endfunction 
+    endfunction
     execute 1
    let next = 1
    if s:IsText(line('.'))
@@ -2490,7 +2490,7 @@ function! OrgMakeDict()
       let parent = b:v.org_dict[line('.')].parent
       call add(b:v.org_dict[parent].c ,line('.'))
       let next = s:OrgNextHead()
-   endwhile 
+   endwhile
 endfunction
 
 function! s:ClearSparseTreeOld()
@@ -2513,7 +2513,7 @@ function! s:SparseTreeRun(term)
     call s:SparseTreeDoFolds()
     call clearmatches()
     let g:org_first_sparse=1
-    let b:v.signstring= s:GetPlacedSignsString(bufnr("%")) 
+    let b:v.signstring= s:GetPlacedSignsString(bufnr("%"))
     set fdm=expr
     set foldlevel=0
     let g:org_first_sparse=1
@@ -2538,7 +2538,7 @@ function! s:SparseTreeDoFolds()
             continue
         else
             let phead = s:OrgUltimateParentHead_l(b:v.sparse_list[i])
-            if phead >= 1 
+            if phead >= 1
                 call insert(b:v.fold_list,phead-1)
             else
                 " match is already on level 1 head
@@ -2547,7 +2547,7 @@ function! s:SparseTreeDoFolds()
         endif
 
         let i -= 1
-    endwhile        
+    endwhile
     "call map(b:v.sparse_list,"v:val + g:org_sparse_lines_after")
     call map(b:v.sparse_list,"v:val + 10")
     call insert(b:v.sparse_list, 1)
@@ -2594,11 +2594,11 @@ function! s:ClearSparseTree()
 endfunction
 
 function! s:FoldTouch()
-    " not used right now, since speed increase over 
+    " not used right now, since speed increase over
     " set fdm=expr is uncertain, and was having problems
     " in cleanly undoing it.
     "
-    " touch each line in lists to update their fold levels  
+    " touch each line in lists to update their fold levels
     let i = 0
     while i < len(b:v.sparse_list)
         execute b:v.sparse_list[i]
@@ -2614,7 +2614,7 @@ endfunction
 
 function! s:OrgIfExpr()
     let mypattern = ''
-    " two wrapper subst statements around middle 
+    " two wrapper subst statements around middle
     " subst are to make dates work properly with substitute/split
     " operation
     let ifstring_list = [[]]
@@ -2633,10 +2633,10 @@ function! s:OrgIfExpr()
 " single operand -- TAG or TODO
 
         let m = matchlist(test_str,'^\(|'
-                    \ .  '\|[+-]\w\{-}[!<>\=]=*".\{-}"'         
-                    \ .  '\|[+-]\w\{-}[!\=]=*{.\{-}}'           
-                    \ .  '\|[+-]\w\{-}[=<>!]=*[0-9+-.][0-9.]*'  
-                    \ .  '\|[+-]\w*\)'                          
+                    \ .  '\|[+-]\w\{-}[!<>\=]=*".\{-}"'
+                    \ .  '\|[+-]\w\{-}[!\=]=*{.\{-}}'
+                    \ .  '\|[+-]\w\{-}[=<>!]=*[0-9+-.][0-9.]*'
+                    \ .  '\|[+-]\w*\)'
                     \ .  '\(.*\)')
         if m[1] == '|'
             call add(ifstring_list,[])
@@ -2655,7 +2655,7 @@ function! s:OrgIfExpr()
             break
         endif
     endwhile
-        
+
     for ifstr in ifstring_list
 
         let b:v.my_if_list = ifstr
@@ -2674,7 +2674,7 @@ function! s:OrgIfExpr()
             " Propmatch has '=' sign and something before and after
             if item =~ 'TEXT=\S.*'
                 let mtch = matchlist(item[1:],'\(\S.*\)=\(\S.*\)')
-                let b:v.my_if_list[i] = "(s:Range_Search('" . mtch[2][1:-2] . "','nbW'," 
+                let b:v.my_if_list[i] = "(s:Range_Search('" . mtch[2][1:-2] . "','nbW',"
                 let b:v.my_if_list[i] .= 'tbegin,tend)> 0)'
                 let i += 1
                 " loop to next item
@@ -2738,12 +2738,12 @@ function! s:OrgIfExpr()
                 let item = '(get(lineprops,"TAGS","") ' . op . " ':" . item[1:] . ":')"
                 let b:v.my_if_list[i] = item
             endif
-            let i += 1 
-        endwhile    
+            let i += 1
+        endwhile
         let i = 0
         let b:v.check1 = b:v.my_if_list
         let ifexpr = ''
-        while i < len(b:v.my_if_list) 
+        while i < len(b:v.my_if_list)
             let ifexpr .= b:v.my_if_list[i]
             if i < len(b:v.my_if_list) - 1
                 let ifexpr .= ' && '
@@ -2798,7 +2798,7 @@ function! s:OrgIfExprResults(ifexpr,...)
     endif
 
     "let myifexpr = a:ifexpr
-    
+
     execute 1
     if getline(line('.'))!~ '^\*\+ '
         let headline = s:OrgNextHead()
@@ -2807,14 +2807,14 @@ function! s:OrgIfExprResults(ifexpr,...)
     endif
     let g:checkexpr = a:ifexpr
     while 1
-        if headline > 0 
+        if headline > 0
             execute headline
             " _thisline_ is variable evaluated in myifexpr
             let thisline = getline(headline)
             if s:IsTagLine(headline + 1)
                 let thisline .= ' ' . getline(headline+1)
             endif
-            " lineprops is main variable tested in 'ifexpr' 
+            " lineprops is main variable tested in 'ifexpr'
             " expression that gets evaluated
             "let lineprops = s:GetProperties(headline,1)
             let lineprops = b:v.org_dict[headline].props
@@ -2842,7 +2842,7 @@ function! s:OrgIfExprResults(ifexpr,...)
                 endif
             endfor
             normal l
-            let headline = s:OrgNextHead() 
+            let headline = s:OrgNextHead()
         else
             break
         endif
@@ -2868,7 +2868,7 @@ function! s:MakeResults(search_spec,...)
     let s:agenda_files_copy = copy(g:agenda_files)
     " fix so copy doesn't have full path. .  .
     "call map(s:agenda_files_copy, 'matchstr(v:val,"[\\/]") > "" ? matchstr(v:val,"[^/\\\\]*$") : v:val')
-    if sparse_search 
+    if sparse_search
         call OrgMakeDict()
         let ifexpr = s:OrgIfExpr()
         call s:OrgIfExprResults(ifexpr,sparse_search)
@@ -2879,10 +2879,10 @@ function! s:MakeResults(search_spec,...)
             call org#LocateFile(file)
             call org#SaveLocation()
            " let bnum = bufnr(file)
-           " if bnum == -1 
+           " if bnum == -1
            "     execute 'tabedit ' . file
            " else
-           "    execute 'b' . bnum 
+           "    execute 'b' . bnum
            " endif
             let s:filenum = index(g:agenda_files,file)
             if g:org_search_spec =~ '[<>\=!]'
@@ -2906,11 +2906,11 @@ endfunction
 function! s:DaysInMonth(date)
         let month = str2nr(a:date[5:6])
         let year = str2nr(a:date[0:3])
-        if (month == 2) && (year % 4) 
-            let days = 28 
+        if (month == 2) && (year % 4)
+            let days = 28
         elseif month == 2
             let days = 29
-        elseif index([1,3,5,7,8,10,12],month) >= 0 
+        elseif index([1,3,5,7,8,10,12],month) >= 0
             let days = 31
         else
             let days = 30
@@ -2928,7 +2928,7 @@ function! s:MakeAgenda(date,count,...)
     if a:0 >= 2
         let as_today = a:2
     endif
-    
+
     "call org#SaveLocation()
     let curtab = tabpagenr()
     let curwin = winnr()
@@ -2960,14 +2960,14 @@ function! s:MakeAgenda(date,count,...)
         call org#SaveLocation()
         " for now g:org_search_spec is limited to tags and
         " todo prop which are part of OrgMakeDictInherited
-        " If ever want to expand to general props can 
+        " If ever want to expand to general props can
         " add OrgMakeDict()
         call OrgMakeDictInherited()
         let s:filenum = index(g:agenda_files,file)
         let t:agenda_date=a:date
         if as_today ># ''
             call s:GetDateHeads(g:agenda_startdate,g:org_agenda_days,as_today)
-        else 
+        else
             call s:GetDateHeads(g:agenda_startdate,g:org_agenda_days)
         endif
         call org#RestoreLocation()
@@ -2986,9 +2986,9 @@ endfunc
 
 function! OrgRunSearch(search_spec,...)
         "set mouseshape-=n:busy,v:busy,i:busy
-    if bufnr('Calendar') > 0 
+    if bufnr('Calendar') > 0
         execute 'bw!' . bufnr('Calendar')
-    endif   
+    endif
 
     try
 
@@ -3030,15 +3030,15 @@ function! OrgRunSearch(search_spec,...)
     endtry
 endfunction
 function! s:ResultsToAgenda( search_type )
-    " FOR OrgRunSearch()  
+    " FOR OrgRunSearch()
     ":AAgenda
     :EditAgenda
     let b:v={}
     call s:AgendaBufSyntax()
     set nowrap
-    
+
     call s:DoAgendaMaps()
-    
+
     let i = 0
     call s:ADictPlaceSigns()
     let b:v.heading_marks_dict = {}
@@ -3060,7 +3060,7 @@ function! s:ResultsToAgenda( search_type )
         call add(lines,'')
     endif
     for key in sort(keys(g:adict))
-        call add(lines , key . ' ' . 
+        call add(lines , key . ' ' .
                     \ printf("%-12.12s",g:adict[key].CATEGORY ) . ' ' .
                     \ s:PrePad(matchstr(g:adict[key].ITEM,'^\*\+ '),8) .
                     \ matchstr(g:adict[key].ITEM,'\* \zs.*$'))
@@ -3072,7 +3072,7 @@ function! s:ToFromAgenda()
     if bufname('%') == '__Agenda__'
         for i in range(1, winnr('$'))
             exe i . 'wincmd w'
-            if bufname('%') !~ '__Agenda__\|__Calendar' 
+            if bufname('%') !~ '__Agenda__\|__Calendar'
                 break
             endif
         endfor
@@ -3086,7 +3086,7 @@ function! s:DoAgendaMaps()
 
     command! -buffer -nargs=* Agenda :call OrgAgendaCommand(<f-args>)
 
-    " user can have a function in their vimrc to have their own 
+    " user can have a function in their vimrc to have their own
     " agenda mappings
     if exists('*OrgCustomAgendaMaps')
         call OrgCustomAgendaMaps()
@@ -3125,7 +3125,7 @@ function! s:ToggleHeadingMark(line)
         let b:v.heading_marks_dict[line] = 1
         execute "sign place " . line('.') . " line=" . line('.') . " name=marked buffer=".bufnr("%")
     else
-        unlet b:v.heading_marks_dict[line] 
+        unlet b:v.heading_marks_dict[line]
         execute "sign unplace " . line('.') . " buffer=".bufnr("%")
     endif
 endfunction
@@ -3169,7 +3169,7 @@ function! s:ResultsToSparseTree()
 endfunction
 
 function! s:TestTime()
-    let g:timestart=join(reltime(), ' ') 
+    let g:timestart=join(reltime(), ' ')
     let g:start = strftime("%")
     let i = 0
     set fdm=expr
@@ -3177,7 +3177,7 @@ function! s:TestTime()
     echo g:timestart . ' --- ' . g:timefinish
 endfunction
 function! s:TestTime2(fu)
-    let g:timestart=join(reltime(), ' ') 
+    let g:timestart=join(reltime(), ' ')
     let g:start = strftime("%")
     let i = 0
     execute a:fu
@@ -3193,10 +3193,10 @@ function! s:ADictPlaceSigns()
         let filenum = str2nr(key[0:2])
         let buf = bufnr(s:agenda_files_copy[filenum])
         try
-            silent execute "sign place " . headline . " line=" 
-                        \ . headline . " name=piet buffer=" . buf  
-        catch 
-            echo "ERROR: headline " . headline . ' and buf ' .buf 
+            silent execute "sign place " . headline . " line="
+                        \ . headline . " name=piet buffer=" . buf
+        catch
+            echo "ERROR: headline " . headline . ' and buf ' .buf
             echo key .', '. matchstr(key,'^.*\ze_\d\+$')
         finally
         endtry
@@ -3213,9 +3213,9 @@ function! s:DateDictPlaceSigns()
                 let filenum = str2nr(item[0:2])
                 let buf = bufnr(s:agenda_files_copy[filenum])
                 try
-                    silent execute "sign place " . dateline . " line=" 
-                                \ . dateline . " name=piet buffer=" . buf  
-                catch 
+                    silent execute "sign place " . dateline . " line="
+                                \ . dateline . " name=piet buffer=" . buf
+                catch
                     echo "ERROR: headline " . headline . ' and buf ' . buf . ' and dateline ' . dateline
 
                     echo (matchstr(item,'^\d\+\s\+\zs\S\+') . '.org')
@@ -3243,16 +3243,16 @@ function! s:DateDictToScreen()
     else                   | let type = 'Agenda:'
     endif
 
-    call add(lines,"Agenda view for " . g:agenda_startdate 
+    call add(lines,"Agenda view for " . g:agenda_startdate
                 \ . " to ". calutil#cal(calutil#jul(g:agenda_startdate)+g:org_agenda_days-1)
                 \ . ' matching FILTER: ' . search_spec  )
     call add(lines,'')
     call add(lines,type)
-    
+
     call s:DateDictPlaceSigns()
     let b:v.heading_marks_dict = {}
     let gap = 0
-    let mycount = len(keys(g:agenda_date_dict)) 
+    let mycount = len(keys(g:agenda_date_dict))
     for key in sort(keys(g:agenda_date_dict))
         if empty(g:agenda_date_dict[key].l)
             let gap +=1
@@ -3295,7 +3295,7 @@ function! s:PlaceTimeGrid(lines)
         endwhile
         let lines = sort(lines[0:i-1], 's:TimeGridSort') + lines[i :]
         " now delete duplicates where grid is same as actual entry
-        " skip this part until rest is working. . . 
+        " skip this part until rest is working. . .
         "let i = 0
         "while i < len(lines)
         "    let match1 = matchstr(getline(line('.')),'\%24c.*\%29c')
@@ -3321,13 +3321,13 @@ function! OrgRunAgenda(date,count,...)
     let g:agenda_head_lookup={}
     let win = bufwinnr('Calendar')
     let file = expand('%:p')
-    if win >= 0 
+    if win >= 0
         execute win . 'wincmd w'
         normal ggjjj
         wincmd l
         execute 'bw!' . bufnr('Calendar')
 
-    endif   
+    endif
     if !exists("g:agenda_files") || (g:agenda_files == [])
         unsilent call confirm("No agenda files defined.  Will add current file to agenda files.")
         call s:CurfileAgenda()
@@ -3346,7 +3346,7 @@ function! OrgRunAgenda(date,count,...)
     AAgenda
     call s:SetupDateAgendaWin()
     "we are no in newly created agenda buf/window
-    
+
     for key in keys(g:agenda_date_dict)
         call sort(g:agenda_date_dict[key].l, 's:AgendaCompare')
     endfor
@@ -3354,10 +3354,10 @@ function! OrgRunAgenda(date,count,...)
     if win >= 0
         let year = matchstr(t:agenda_date,'\d\d\d\d')
         let month = matchstr(t:agenda_date,'\d-\zs\d\d\ze-')
-        execute 'Calendar ' . year .' '. str2nr(month) 
+        execute 'Calendar ' . year .' '. str2nr(month)
         execute bufwinnr('Agenda').'wincmd w'
     endif
-    " we're in agenda, do rigamarole to get top column heading window, 
+    " we're in agenda, do rigamarole to get top column heading window,
     " if any, back to zero height
     let curheight=winheight(0)
     call org#LocateFile(file)
@@ -3366,7 +3366,7 @@ function! OrgRunAgenda(date,count,...)
     call org#LocateFile('__Agenda__')
     "wincmd j
     execute 1
-    execute 'resize ' . curheight   
+    execute 'resize ' . curheight
 
     finally
         "set mouseshape-=n:busy,v:busy,i:busy
@@ -3396,7 +3396,7 @@ function! OrgRefreshCalendarAgenda()
 endfunction
 function! s:Resize()
     let cur = winheight(0)
-    resize 
+    resize
     resize cur
 endfunction
 
@@ -3452,7 +3452,7 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
     let rangedate = matchstr(getline(line(".")),'--<\zs\d\d\d\d-\d\d-\d\d')
 
     let locator = s:PrePad(s:filenum,3,'0') . s:PrePad(line('.'),5,'0') . '  '
-    
+
     let g:myline = s:OrgGetHead_l(line('.'))
     "let g:myline = s:OrgParentHead_l(line('.'))
     "if g:myline == 0
@@ -3497,8 +3497,8 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
                 while (rangedate > datematch)
                     let rangestr = '('.i.'/'.days_in_range.')'
                     if exists("g:agenda_date_dict['".rangedate."']")
-                        "call add(g:agenda_date_dict[rangedate].l,  line(".") . repeat(' ',6-len(line("."))) . 
-                        call add(g:agenda_date_dict[rangedate].l,  locator . 
+                        "call add(g:agenda_date_dict[rangedate].l,  line(".") . repeat(' ',6-len(line("."))) .
+                        call add(g:agenda_date_dict[rangedate].l,  locator .
                                     \ filename . org#Pad(rangestr,11) . s:headtext)
                     endif
                     let rangedate = calutil#cal(calutil#jul(rangedate) - 1)
@@ -3524,7 +3524,7 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
             if !empty(mlist)
                 let dayspast = calutil#jul(today) - calutil#jul(datematch)
                 if mlist[1] ==? 'DEADLINE'
-                    let newpart = org#Pad('In',6-len(dayspast)) . '-' . dayspast . ' d.:' 
+                    let newpart = org#Pad('In',6-len(dayspast)) . '-' . dayspast . ' d.:'
                 else
                     let newpart = org#Pad('Sched:',9-len(dayspast)) . dayspast . 'X:'
                 endif
@@ -3539,7 +3539,7 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
                 let daysahead = calutil#jul(datematch) - calutil#jul(today)
                 let g:specific_warning = str2nr(matchstr(line,'<\S*\d\d.*-\zs\d\+\zed.*>'))
                 if (daysahead <= g:org_deadline_warning_days) || (daysahead <= g:specific_warning)
-                    let newpart = org#Pad('In',7-len(daysahead)) . daysahead . ' d.:' 
+                    let newpart = org#Pad('In',7-len(daysahead)) . daysahead . ' d.:'
                     call add(g:agenda_date_dict[today].l,  locator . filename . newpart . s:headtext)
                 endif
             endif
@@ -3550,7 +3550,7 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
                 \ && ((g:org_search_spec ==# '') || (s:CheckIfExpr(line("."),b:v.agenda_ifexpr)))
         let days_in_range = calutil#jul(rangedate) - calutil#jul(datematch) + 1
         if rangedate >= date2
-            let last_day_to_add = calutil#jul(date2) - calutil#jul(datematch) 
+            let last_day_to_add = calutil#jul(date2) - calutil#jul(datematch)
             let rangedate = calutil#cal(calutil#jul(date2)-1)
         else
             let last_day_to_add = days_in_range
@@ -3560,7 +3560,7 @@ function! s:ProcessDateMatch(datematch,date1,date2,...)
         let i = last_day_to_add
         while (rangedate >= date1)
             let rangestr = '('.i.'/'.days_in_range.')'
-            call add(g:agenda_date_dict[rangedate].l,  locator . 
+            call add(g:agenda_date_dict[rangedate].l,  locator .
                         \ filename . org#Pad(rangestr,11) . s:headtext)
             let rangedate = calutil#cal(calutil#jul(rangedate) - 1)
             let i = i - 1
@@ -3621,12 +3621,12 @@ function! s:RepeatMatch(rptdate, date1, date2)
         endwhile
     elseif rpttype ==? 'm'
         let g:special = baserpt[-1:]
-        let monthday = str2nr(basedate[8:]) 
+        let monthday = str2nr(basedate[8:])
         let baseclone = basedate
-        " this if-structure assigns begin test month as 
+        " this if-structure assigns begin test month as
         " first repeat month _before_ date1
         if yearflag
-            if (date1[:6]) >= (date1[:3] . baseclone[4:6]) 
+            if (date1[:6]) >= (date1[:3] . baseclone[4:6])
                 let baseclone = date1[:3] . baseclone[4:]
             else
                 let baseclone = string(str2nr(date1[:3]) - 1) . baseclone[4:]
@@ -3670,10 +3670,10 @@ function! s:RepeatMatch(rptdate, date1, date2)
             endif
             let first_cal = calutil#cal(first_of_month_jul)
             let nextmonth = str2nr(first_cal[5:6]) + rptnum
-            let year = str2nr(first_cal[0:3]) 
+            let year = str2nr(first_cal[0:3])
             if nextmonth >= 13
                 let nextmonth = (nextmonth-12)
-                let year += 1 
+                let year += 1
             endif
             let first_of_month_jul = calutil#jul(string(year) . '-' . s:Pre0(nextmonth) . '-01')
         endwhile
@@ -3696,7 +3696,7 @@ function! s:CheckMinMax()
     if (date > b:v.MinMaxDate[1])
         let b:v.MinMaxDate[1] = date
     endif
-endfunction        
+endfunction
 function! s:Timeline(...)
     if a:0 > 0
         let spec = a:1
@@ -3746,7 +3746,7 @@ function! s:AgendaCompare(i0, i1)
     " mymstr below would be better match string regex, but generic dates
     " have no text at position 24 to match \S . . . "
     "let mymstr = '^\(\d\+\)\s\+\(\S\+\)\s\+\(\S.\{10}\).*\(\*\+\)\s\(.*$\)'
-    " [1] is lineno, [2] is file, [3] is scheduling, [4] is levelstarts, 
+    " [1] is lineno, [2] is file, [3] is scheduling, [4] is levelstarts,
     " [5] is headtext
     let cp0 = matchlist(a:i0,mymstr)
     let cp1 = matchlist(a:i1,mymstr)
@@ -3762,7 +3762,7 @@ function! s:AgendaCompare(i0, i1)
             else
                 let str_ord = 'ab000'
             endif
-        elseif item[3][0] ==? 'I' 
+        elseif item[3][0] ==? 'I'
             if matchstr(item[3],'-') ># ''
                 let str_ord = 'd-'.s:PrePad(1000-str2nr(matchstr(item[3],'\d\+')),3,'0')
             else
@@ -3777,28 +3777,28 @@ function! s:AgendaCompare(i0, i1)
         endif
         call add(sched_comp,str_ord.item[2].s:PrePad(item[1],5,'0'))
         let i += 1
-    endwhile 
+    endwhile
 
     return sched_comp[0] ==? sched_comp[1] ? 0 : sched_comp[0] > sched_comp[1] ? 1 : -1
 
 "    let num1 = str2nr(matchstr(a:i1,'In *\zs[ -]\d\+\ze d.:'))
 "    let num2 = str2nr(matchstr(a:i2,'In *\zs[ -]\d\+\ze d.:'))
-"    if num1 == 0 
+"    if num1 == 0
 "        let num1 = str2nr(matchstr(a:i1,'Sched: *\zs\d\+\zeX:'))
-"        if num1 !=0 
+"        if num1 !=0
 "            let num1 = -num1 - 10000
 "        endif
 "    endif
-"    if num2 == 0 
+"    if num2 == 0
 "        let num2 = str2nr(matchstr(a:i2,'Sched: *\zs\d\+\zeX:'))
-"        if num2 !=0 
+"        if num2 !=0
 "            let num2 = -num2 - 10000
 "        endif
 "    endif
-"    if (a:i1 =~ '^\d\+\s\+\S\+\s\+\d') 
+"    if (a:i1 =~ '^\d\+\s\+\S\+\s\+\d')
 "        let num1=num1-20000
 "    endif
-"    if (a:i2 =~ '^\d\+\s\+\S\+\s\+\d') 
+"    if (a:i2 =~ '^\d\+\s\+\S\+\s\+\d')
 "        let num2=num2-20000
 "    endif
 
@@ -3821,7 +3821,7 @@ function! s:DateListAdd(valdict)
         let i += 1
     endwhile
     return a:valdict
-endfunction 
+endfunction
 
 function! OrgAgendaMove(direction,count)
     " need to add functionaity for count, refactor
@@ -3830,7 +3830,7 @@ function! OrgAgendaMove(direction,count)
     let date_jul = calutil#jul(g:agenda_startdate)
     let ymd_list = split(g:agenda_startdate,'-')
 
-    if g:org_agenda_days == 1 
+    if g:org_agenda_days == 1
         let g:agenda_startdate = calutil#cal(date_jul + (cnt * 1))
     elseif g:org_agenda_days == 7
         let g:agenda_startdate = calutil#cal(date_jul + (cnt * 7))
@@ -3925,7 +3925,7 @@ function! s:MakeCalendar(date, daycount)
             endif
         endif
 
-        let datetext = dn . repeat(' ',10-len(dn)) . (day<10?'   ':'  ') . 
+        let datetext = dn . repeat(' ',10-len(dn)) . (day<10?'   ':'  ') .
                     \ day . ' ' . monthnames[month-1] . ' ' . year . (wd == 1 ? ' Wk' . week : '' )
 
         let g:agenda_date_dict[year . '-' . s:Pre0(month) .  '-' .  (day<10 ? '0'.day : day) ]
@@ -3952,7 +3952,7 @@ function! s:AgendaPutText(...)
             let file = s:agenda_files_copy[str2nr(matchstr(thisline, '^\d\d\d'))]
             "let lineno = matchstr(thisline,'^\d\+\ze\s\+')
             let lineno = str2nr(matchstr(thisline,'^\d\d\d\zs\d*'))
-            let starttab = tabpagenr() 
+            let starttab = tabpagenr()
 
             "call org#LocateFile(file.'.org')
             call org#LocateFile(file)
@@ -3970,7 +3970,7 @@ function! s:AgendaPutText(...)
                 let g:text = getline(newhead,lastline)
             elseif lastline == -1
                 let g:text = getline(newhead,line('$'))
-            else    
+            else
                 let g:text = []
             endif
 
@@ -3992,7 +3992,7 @@ function! s:AgendaPutText(...)
             let lastline = line(".")
             if (lastline < line("$"))  ||
                         \ ( (getline(line(".")) =~ '^\d\+\s\+')
-                        \ || (getline(line(".")) =~ daytextpat) 
+                        \ || (getline(line(".")) =~ daytextpat)
                         \ || (getline(line(".")) =~ '\d empty days omitted') )
                 let lastline = line(".") - 1
             endif
@@ -4024,7 +4024,7 @@ function! s:SaveHeadline(file, headline, lines)
     let file = a:file
     let headline = a:headline
     let lines=a:lines
-    let starttab = tabpagenr() 
+    let starttab = tabpagenr()
 
     "call org#LocateFile(file.'.org')
     call org#LocateFile(file)
@@ -4045,7 +4045,7 @@ endfunction
 function! OrgAgendaGetText(...)
     "type: 'datedict' for date agenda, 'adict' for regular search
     let cycle_todo = 0
-    if a:0 >= 1 
+    if a:0 >= 1
         let cycle_todo = 1
         if a:0 == 2
             let newtodo = a:2
@@ -4061,7 +4061,7 @@ function! OrgAgendaGetText(...)
                     \ (getline(line(".") + 1 ) =~ '^\S\+\s\+\d\{1,2}\s\S\+\s\d\d\d\d')
                     \ || (getline(line(".") + 1 ) =~ '\d empty days omitted')
 
-            let starttab = tabpagenr() 
+            let starttab = tabpagenr()
 
             " go to the heading's file
             let file = s:agenda_files_copy[str2nr(matchstr(thisline, '^\d\d\d'))]
@@ -4069,10 +4069,10 @@ function! OrgAgendaGetText(...)
             call org#LocateFile(file)
 
             let save_cursor2 = getpos(".")
-            
+
             let newhead = matchstr(s:GetPlacedSignsString(bufnr("%")),'line=\zs\d\+\ze\s\+id=' . lineno)
             let newhead = s:OrgGetHead_l(newhead)
-            
+
             execute newhead
 
             if cycle_todo
@@ -4091,9 +4091,9 @@ function! OrgAgendaGetText(...)
                 let lastline = s:OrgNextHead_l(newhead) - 1
                 if lastline > newhead
                     let g:text = getline(newhead,lastline)
-                elseif lastline == -1 
+                elseif lastline == -1
                     let g:text = getline(newhead,line('$'))
-                else    
+                else
                     let g:text = []
                 endif
             endif
@@ -4106,7 +4106,7 @@ function! OrgAgendaGetText(...)
             endif
         else
             " we're dealing with toggle of agenda heading that already
-            " has main buffer heading text in agenda. . . 
+            " has main buffer heading text in agenda. . .
             normal j
             let firstline = line(".")
             let daytextpat = '^\S\+\s\+\d\{1,2}\s\S\+\s\d\d\d\d'
@@ -4118,8 +4118,8 @@ function! OrgAgendaGetText(...)
             let lastline = line(".")
             if (lastline < line("$"))  ||
                         \ ( (getline(line(".")) =~ '^\d\+\s\+')
-                        \ || (getline(line(".")) =~ daytextpat) 
-                        \ || (getline(line(".")) =~ '\d empty days omitted')) 
+                        \ || (getline(line(".")) =~ daytextpat)
+                        \ || (getline(line(".")) =~ '\d empty days omitted'))
                 let lastline = line(".") - 1
             endif
             call setpos(".",save_cursor)
@@ -4160,12 +4160,12 @@ function! s:IsVisibleHeading(line)
     " returns 1 if line is of a visible heading,
     " 0 if not
     " a heading is visible if foldclosed = -1
-    " (i.e., it's not in a fold) 
+    " (i.e., it's not in a fold)
     " OR if it's not in an earlier-started fold
-    " (i.e. start of fold heading is in is 
+    " (i.e. start of fold heading is in is
     " same as line of heading)
-    " ***************************   the second and third lines of if 
-    " statement are necessary because of bug where foldclosed is less 
+    " ***************************   the second and third lines of if
+    " statement are necessary because of bug where foldclosed is less
     " than a head even though it is the fold head ***************
     let fc = foldclosed(a:line)
     if ((a:line > 0) && (fc == -1)) || (fc == a:line)
@@ -4173,7 +4173,7 @@ function! s:IsVisibleHeading(line)
                 \ || ((fc < a:line) &&  (foldclosedend(fc) < a:line) )
         "   \ || (s:Ind(a:line) == 2)
         return 1
-    else    
+    else
         return 0
     endif
 endfunction
@@ -4182,7 +4182,7 @@ function! OrgSingleHeadingText(operation)
     " expand or collapse all visible Body Text
     " under Heading fold that cursor is in
     " operation:  "collapse" or "expand"
-    " expand or collapse all Body Text 
+    " expand or collapse all Body Text
     " currently visible under current heading
     let l:startline = line(".")
     let l:endline = s:OrgSubtreeLastLine_l(l:startline) - 1
@@ -4194,7 +4194,7 @@ function! s:StarLevelFromTo(from, to)
     set fdm=manual
     let b:v.levelstars = a:to
     ChangeSyn
-    g/^\*\+/call setline(line("."),substitute(getline(line(".")),'^\*\+','*' . 
+    g/^\*\+/call setline(line("."),substitute(getline(line(".")),'^\*\+','*' .
                 \ repeat('*',(len(matchstr(getline(line(".")),'^\*\+')) - 1) * a:to / a:from),''))
     set fdm=expr
     call setpos(".",save_cursor)
@@ -4211,14 +4211,14 @@ function! s:OrgExpandLevelText(startlevel, endlevel)
     normal gg
     let startlevel = s:StarsForLevel(a:startlevel)
     let endlevel = s:StarsForLevel(a:endlevel)
-    let l:mypattern = substitute(b:v.headMatchLevel,'level', startlevel . ',' . endlevel, "") 
+    let l:mypattern = substitute(b:v.headMatchLevel,'level', startlevel . ',' . endlevel, "")
     while search(l:mypattern, 'cW') > 0
         execute line(".") + 1
         while getline(line(".")) =~ b:v.drawerMatch
            execute line(".") + 1
            normal! j
         endwhile
-        if s:IsText(line(".")) 
+        if s:IsText(line("."))
             normal zv
         endif
         "normal l
@@ -4243,7 +4243,7 @@ endfunction
 function! OrgBodyTextOperation(startline,endline, operation)
     " expand or collapse all Body Text from startline to endline
     " operation:  "collapse" or "expand"
-    " save original line 
+    " save original line
     let l:oldcursor = line(".")
     let nh = 0
     " go to startline
@@ -4261,12 +4261,12 @@ function! OrgBodyTextOperation(startline,endline, operation)
             "   "echo 'in expand area'
             "   if a:operation ==? 'expand'
             "       normal zv
-            "   endif   
+            "   endif
         endif
         let lastnh = nh
         let nh = s:NextVisibleHead(line("."))
         "echo 'last ' . lastnh . '    now ' . nh
-        if (nh == 0) || (nh >= a:endline) || (nh == lastnh) 
+        if (nh == 0) || (nh >= a:endline) || (nh == lastnh)
             "echo "hit break"
             break
         elseif lastnh == nh
@@ -4274,7 +4274,7 @@ function! OrgBodyTextOperation(startline,endline, operation)
             echo "bad exit from BodyTextOp"
         else
             "echo "hit ex"
-            execute nh 
+            execute nh
         endif
 
     endwhile
@@ -4296,7 +4296,7 @@ function! OrgSetLine(line, file, newtext)
 
     call org#LocateFile(a:file)
     call setline(a:line,a:newtext)
-    
+
     call org#LocateFile(curfile)
     call setpos('.',save_cursor)
 endfunction
@@ -4306,7 +4306,7 @@ function! OrgGetLine(line, file)
 
     call org#LocateFile(a:file)
     let result = getline(a:line)
-    
+
     call org#LocateFile(curfile)
     call setpos('.',save_cursor)
     return result
@@ -4346,7 +4346,7 @@ function! GetDateSpecAtCursor()
     normal! va<
     silent! normal! "xy
     call setpos('.',savecursor)
-    if len(@x) < 7 
+    if len(@x) < 7
         "normal! vi["xy
         normal! va[
         silent! normal! "xy
@@ -4370,13 +4370,13 @@ function! GetDateSpecAtCursor()
     endif
 
     call setpos(".", savecursor)
-        
+
 endfunction
 
 function! CalEdit( sdate, stime )
         " bring up calendar to edit and return a date value
         call org#SaveLocation()
-        let basedate = a:sdate ==# '' ? s:Today() : a:sdate 
+        let basedate = a:sdate ==# '' ? s:Today() : a:sdate
         let basetime = a:stime
         let newdate = '<' . basedate[0:9] . ' ' . calutil#dayname(basedate[0:9]) . (basetime ># '' ? ' ' . basetime : '') . '>'
         let newtime = basetime
@@ -4391,9 +4391,9 @@ function! CalEdit( sdate, stime )
         let g:calendar_action='<SNR>'.s:SID().'_CalendarInsertDate'
         let cue = ''
         while 1
-            echohl LineNr | echon 'Date+time ['.basedate . ' '.basetime.']: ' 
-            "echohl None | echon cue.'_   =>' | echohl WildMenu | echon ' '.newdate[:-2] . ' ' . newtime 
-            echohl None | echon cue.'_   =>' | echohl WildMenu | echon ' '.newdate[:-2] . '>' 
+            echohl LineNr | echon 'Date+time ['.basedate . ' '.basetime.']: '
+            "echohl None | echon cue.'_   =>' | echohl WildMenu | echon ' '.newdate[:-2] . ' ' . newtime
+            echohl None | echon cue.'_   =>' | echohl WildMenu | echon ' '.newdate[:-2] . '>'
             let nchar = getchar()
             let newchar = nr2char(nchar)
             if newdate !~ 'interpret'
@@ -4449,7 +4449,7 @@ function! CalEdit( sdate, stime )
             try
                 let newdate = '<' . s:GetNewDate(cue,basedate,basetime)  . '>'
             catch
-                " don't raise error if user mistypes cue. . . 
+                " don't raise error if user mistypes cue. . .
                 " or if last char makes cue uninterpretable
                 let newdate = "can't interpret date cue  "
             endtry
@@ -4463,7 +4463,7 @@ function! CalEdit( sdate, stime )
         hi Cursor guibg=gray
         bdelete __Calendar
         call org#RestoreLocation()
-        return newdate 
+        return newdate
 endfunction
 
 command! OrgColumns :call OrgColumnsDashboard()
@@ -4509,11 +4509,11 @@ function! OrgColumnsDashboard(...)
             echo " t   toggle column view on/off"
             echo " h   toggle show headings on/off"
             echo " l   line count on/off"
-            if len(g:org_custom_column_options) > 0 
+            if len(g:org_custom_column_options) > 0
                 echo " Custom columns settings:"
             endif
             let i = 0
-            while i < len(g:org_custom_column_options) 
+            while i < len(g:org_custom_column_options)
                 echo " " . i . "   " . g:org_custom_column_options[i]
                 let i += 1
             endwhile
@@ -4523,7 +4523,7 @@ function! OrgColumnsDashboard(...)
             let key = nr2char(getchar())
             redraw
         endif
-        
+
         if key ==? 'f'
             let force_all = 1
             let key = ''
@@ -4532,7 +4532,7 @@ function! OrgColumnsDashboard(...)
         endif
 
         let master_head = (force_all == 1 ) ? 0 : line('.')
-       
+
         if key ==? 'r'
             let w:v.org_current_columns = b:v.buffer_columns
             if w:v.columnview == 1
@@ -4562,7 +4562,7 @@ function! OrgColumnsDashboard(...)
 
     if b:v.org_columns_show_headings == 0
         call s:ColHeadWindow('',0)
-    elseif (w:v.columnview == 1) && (bufnr('ColHeadBuffer') == -1) 
+    elseif (w:v.columnview == 1) && (bufnr('ColHeadBuffer') == -1)
         call s:ColHeadWindow(w:v.org_column_item_head)
     endif
     echohl None
@@ -4595,7 +4595,7 @@ function! OrgDateDashboard(...)
         echo " c   set CLOSED for current heading (currently: " . get(props,'CLOSED','NONE') . ')'
         echo " t   set TIMESTAMP for current heading (currently: " . get(props,'TIMESTAMP','NONE') . ')'
         echo " g   set date at cursor"
-        echo " "        
+        echo " "
         echo " "
         echohl Question
         let key = nr2char(getchar())
@@ -4630,14 +4630,14 @@ function! OrgAgendaDateInc(datecue)
     else
         call OrgDateEdit('TIMESTAMP',a:datecue)
     endif
-    
+
 endfunction
 function! OrgDateEdit(type,...)
     if a:0 == 1
         "use this to bypass calendar ui
         let datecue = a:1
     endif
-    " type can equal DEADLINE/CLOSED/SCHEDULED/TIMESTAMP/ATCURSOR 
+    " type can equal DEADLINE/CLOSED/SCHEDULED/TIMESTAMP/ATCURSOR
     let save_cursor = getpos('.')
     let old_cal_navi = g:calendar_navi
     unlet g:calendar_navi
@@ -4662,13 +4662,13 @@ function! OrgDateEdit(type,...)
             else
                 let my_date = s:GetProp(dtype,buffer_lineno, file)
             endif
-        
+
             let bracket = my_date[0]
             let orig_date = matchstr( my_date, '[[<]\zs\d\d\d\d-\d\d-\d\d' )
             let orig_time = matchstr( my_date, '[[<]\d\d\d\d-\d\d-\d\d ... \zs\d\d:\d\d' )
             if orig_time ># ''
                 let rpt_or_warning = matchstr( my_date, ' \d\d:\d\d\zs .*\ze.$')
-            else    
+            else
                 let rpt_or_warning = matchstr( my_date, '-\d\d-\d\d \S\S\S\zs .*\ze.$')
             endif
 
@@ -4689,7 +4689,7 @@ function! OrgDateEdit(type,...)
 
             " back to main window if agenda is present and cursor is in it
             if (from_agenda == 0) && bufname("%") ==? '__Agenda__'
-               "wincmd k 
+               "wincmd k
                exe bufwinnr(file) . 'wincmd w'
             endif
 
@@ -4709,7 +4709,7 @@ function! OrgDateEdit(type,...)
                     endif
                 endif
             else
-                " set the prop with new date . . . 
+                " set the prop with new date . . .
                 if (from_agenda == 0)
                     "just set the prop if we're in org file buffer
                     call s:SetProp(dtype,cal_result,buffer_lineno, file)
@@ -4730,7 +4730,7 @@ function! OrgDateEdit(type,...)
                         let cur_line = getline(line('.'))
                         let mylen = winwidth(0) - 29
                         let cur_line = (len(cur_line) > mylen) ? cur_line[:mylen] : cur_line . repeat(' ', mylen-len(cur_line))
-                        let change_indicator = ' ' . dtype[0] . ' => ' . dtype . ' on ' . cal_result 
+                        let change_indicator = ' ' . dtype[0] . ' => ' . dtype . ' on ' . cal_result
                         call setline(line('.'), cur_line . change_indicator)
                         execute 'sign unplace ' . item . ' buffer=' . bufnr('%')
                     endfor
@@ -4740,7 +4740,7 @@ function! OrgDateEdit(type,...)
             endif
 
             redraw
-            echo 
+            echo
             redraw
         else
             echo "Date type wasn't DEADLINE, SCHEDULED, CLOSED, TIMESTAMP, or ATCURSOR."
@@ -4778,11 +4778,11 @@ function! s:GetNewDate(cue,basedate,basetime)
     let tmatch = matchlist( timecue , '\(\d\{1,2}\):\(\d\d\)\(am\|pm\)*')
     if !empty(tmatch)
         let hours = tmatch[1]
-        if (tmatch[3]=='pm') && (hours < 12) 
+        if (tmatch[3]=='pm') && (hours < 12)
             let hours = hours + 12
-        elseif (tmatch[3]=='am') && (hours == 12) 
+        elseif (tmatch[3]=='am') && (hours == 12)
             let hours = 0
-        endif 
+        endif
         let hours = s:Pre0(hours)
         let mytime = ' ' . hours . ':' . tmatch[2]
     else
@@ -4807,7 +4807,7 @@ function! DateCueResult( cue, basedate)
             " day of month string
             if str2nr(cue) > str2nr(basedate[8:9])
                 let newdate = calutil#cal(calutil#jul(basedate[0:7].s:Pre0(cue)))
-            else 
+            else
                 let newmonth = s:Pre0(basedate[5:6]+1)
                 let newdate = calutil#cal(calutil#jul(basedate[0:4].newmonth.'-'.s:Pre0(cue)))
             endif
@@ -4858,7 +4858,7 @@ function! DateCueResult( cue, basedate)
         elseif cue =~ s:org_weekdaystring
             " wed, 3tue, 5fri, i.e., dow string
             let mycount = matchstr(cue,'^\d\+')
-            let myday = matchstr(cue,s:org_weekdaystring) 
+            let myday = matchstr(cue,s:org_weekdaystring)
             let newday = index(s:org_weekdays,tolower(myday))
             let oldday = calutil#dow(matchstr(basedate,'\d\d\d\d-\d\d-\d\d'))
             if newday > oldday
@@ -4905,7 +4905,7 @@ function! DateCueResult( cue, basedate)
                 elseif ((mycount % 12) >= month) && (op ==? '-')
                     let yminus = mycount/12
                     let year = year - yminus - 1
-                    let month = (month + 12 - (mycount % 12))   
+                    let month = (month + 12 - (mycount % 12))
                 else " '-' with month greater
                     let month = month - (mycount % 12)
                     let year = year - (mycount / 12)
@@ -4947,7 +4947,7 @@ function! s:TimeInc(direction)
             silent execute 'let timetest = line[' . start . ':' . end .']'
             if timetest =~ ' \d\d:\d\d[>\]]'
                 break
-            endif          
+            endif
             let i += 1
         endwhile
     else
@@ -4961,9 +4961,9 @@ function! s:TimeInc(direction)
         let end = col - i + 5
         execute 'let time = line[' . start . ':' . end .']'
         if i > 3
-            let newminutes = (time[3:4] + (a:direction *5)) 
+            let newminutes = (time[3:4] + (a:direction *5))
             let newminutes = newminutes - (newminutes % 5)
-            if (newminutes >= 60) 
+            if (newminutes >= 60)
                 let newminutes = 0
                 let newhours = time[0:1] + 1
             elseif (newminutes == -5) && (a:direction == -1)
@@ -4983,7 +4983,7 @@ function! s:TimeInc(direction)
             let newhours = 23
             "execute "normal ".start-6."|"
             "call OrgDateInc(a:direction)
-            "call setpos(".",tempsave)         
+            "call setpos(".",tempsave)
         endif
         let matchcol = col-i+2
         execute 's/\%'.matchcol.'c\zs\d\d:\d\d/' . s:Pre0(newhours) . ':' . s:Pre0(newminutes).'/'
@@ -5006,7 +5006,7 @@ function! OrgDateInc(direction)
             silent execute 'let datetest = line[' . start . ':' . end .']'
             if datetest =~ '[<[]\d\d\d\d-\d\d-\d\d'
                 break
-            endif          
+            endif
             let i += 1
         endwhile
     else
@@ -5037,7 +5037,7 @@ function! OrgDateInc(direction)
             "execute 's/\d\d\d\d/' . newyear . '/'
         else
             let spot = 'month'
-            let newmonth = date[5:6] + a:direction  
+            let newmonth = date[5:6] + a:direction
             let newday = date[8:9]
             if newmonth > 12
                 let newyear = date[0:3] + 1
@@ -5064,14 +5064,14 @@ function! OrgDateInc(direction)
         if datetest =~ '\d\d\d\d-\d\d-\d\d \S\S\S'
             let dow = calutil#DayOfWeek(newyear,newmonth,newday,2)
             silent execute 's/\%'.matchcol.'c\(\d\d\d\d-\d\d-\d\d \)\S\S\S/\1' . dow.'/'
-        endif          
+        endif
     endif
     call setpos(".",save_cursor)
 endfunction
 
 function! s:GetClock()
     return '['.strftime("%Y-%m-%d %a %H:%M").']'
-endfunction 
+endfunction
 function! OrgClockIn(...)
     let save_cursor=getpos(".")
     let lineno=line('.')
@@ -5081,7 +5081,7 @@ function! OrgClockIn(...)
         let str = ','.lineno.',"'.file.'"'
         call s:SetProp('CLOCKIN','',lineno,file)
     else
-   
+
         if a:0 > 1
             execute a:1
         endif
@@ -5124,7 +5124,7 @@ function! OrgClockOut(...)
         execute a:1
     else
         let oc = s:GetOpenClock()
-        if oc[0] ># '' 
+        if oc[0] ># ''
            call org#LocateFile(oc[0])
            execute oc[1]
         endif
@@ -5135,8 +5135,8 @@ function! OrgClockOut(...)
     let found = s:Range_Search(str,'n',bottom,line("."))
     if found
         execute found
-        execute 'normal A--' . s:GetClock() 
-        if b:v.clock_to_logbook 
+        execute 'normal A--' . s:GetClock()
+        if b:v.clock_to_logbook
             let headline = s:OrgGetHead()
             let clockline = getline(line(".")) . ' -> ' . s:ClockTime(line("."))
             normal! dd
@@ -5191,7 +5191,7 @@ function! s:SumClockLines(line)
         else
             execute line('.') + 1
         endif
-        
+
     endwhile
     let totalminutes = (60 * hours) + minutes
     call setpos(".",save_cursor)
@@ -5235,9 +5235,9 @@ function! ClockTable()
                 \ '|---+------------------------------+-------+--------' ,
                 \ '|   |                      *TOTAL* | '.total ]
     for item in sort(keys(g:ctable_dict),'s:NumCompare')
-        let level = len(matchstr(g:ctable_dict[item].text,'^\*\+')) 
+        let level = len(matchstr(g:ctable_dict[item].text,'^\*\+'))
         let treesym = repeat('   ',level-2) . (level > 1 ? '\_ ' : '')
-        let str = '| '.level.' | ' 
+        let str = '| '.level.' | '
                     \ . org#Pad(treesym . matchstr(g:ctable_dict[item].text,'^\*\+ \zs.*')[:20],28) . ' | '
                     \ . repeat('      | ',level-1)
                     \ . s:PrePad(g:ctable_dict[item].time,5) . ' |'
@@ -5247,7 +5247,7 @@ function! ClockTable()
         call add(result, str)
     endfor
     call setpos(".",save_cursor)
-    
+
     unlet b:v.org_dict
     return result
 
@@ -5287,7 +5287,7 @@ function! s:GetProp(key,...)
         call org#LocateFile(a:2)
     endif
     if (a:0 >= 1) && (a:1 > 0)
-        execute a:1 
+        execute a:1
     endif
     execute s:OrgGetHead() + 1
     let myval = ''
@@ -5347,13 +5347,13 @@ function! s:SetProp(key, val,...)
         call org#LocateFile(a:2)
     endif
     if (a:0 >= 1) && (a:1 > 0)
-        execute a:1 
+        execute a:1
     endif
     let key = a:key
     let val = a:val
-    execute s:OrgGetHead() 
-    " block_end was end of properties block, but getting that 
-    " from GetProperties(line('.'),0) creates problems with 
+    execute s:OrgGetHead()
+    " block_end was end of properties block, but getting that
+    " from GetProperties(line('.'),0) creates problems with
     " line numbers having changed from previous run of OrgMakeDict
     " So, just use next head as end of block for now.
     let block_end = s:OrgNextHead()
@@ -5361,10 +5361,10 @@ function! s:SetProp(key, val,...)
     if key =~ 'DEADLINE\|SCHEDULED\|CLOSED\|TIMESTAMP'
         " it's one of the five date props
         " find existing date line if there is one
-        if key ==? 'TIMESTAMP' 
+        if key ==? 'TIMESTAMP'
             let key = ''
             let foundline = s:Range_Search('^\s*:\s*<\d\d\d\d-\d\d-\d\d','n',block_end,line("."))
-        elseif key ==? 'TIMESTAMP_IA' 
+        elseif key ==? 'TIMESTAMP_IA'
             let key = ''
             let foundline = s:Range_Search('^\s*:\s*[\d\d\d\d-\d\d-\d\d','n',block_end,line("."))
         else
@@ -5403,7 +5403,7 @@ function! s:SetProp(key, val,...)
     else
         " it's a regular key/val pair in properties drawer
         call OrgConfirmDrawer("PROPERTIES")
-        while (getline(line(".")) !~ '^\s*:\s*' . key) && 
+        while (getline(line(".")) !~ '^\s*:\s*' . key) &&
                     \ (getline(line(".")) =~ s:remstring) &&
                     \ (line('.') != line('$'))
             execute line(".") + 1
@@ -5437,8 +5437,8 @@ function! s:CurrentRemoveFromAgendaFiles()
         let cur_file = substitute(cur_file1,'\','\\\\','g')
         let cur_file = substitute(cur_file,'\\ ','\ ','g')
 
-        let file_count = len(g:agenda_files) 
-        
+        let file_count = len(g:agenda_files)
+
         let ndx = -1
         for i in range(0, file_count - 1 )
             if g:agenda_files[i] =~ '\c' . cur_file
@@ -5463,8 +5463,8 @@ function! s:CurrentToAgendaFiles(top_or_bottom)
         if !exists('g:agenda_files')
             let g:agenda_files = []
         endif
-        let file_count = len(g:agenda_files) 
-        
+        let file_count = len(g:agenda_files)
+
         let ndx = -1
         for i in range(0, file_count - 1 )
             if g:agenda_files[i] =~ '\c' . cur_file
@@ -5523,7 +5523,7 @@ function! s:OrgGotoChosenFile(...)
     redraw
     echo "Agenda files:"
     echo "============================="
-    let nums = range(char2nr('a'),char2nr('z')) + range(char2nr('0'), char2nr('9')) 
+    let nums = range(char2nr('a'),char2nr('z')) + range(char2nr('0'), char2nr('9'))
 
     for i in range(0,len(bufnums)-1)
         echo '   ' . nr2char(nums[i]) . '  ' . g:agenda_files[i]
@@ -5538,7 +5538,7 @@ function! s:OrgGotoChosenFile(...)
     echo "Press a key to go to chosen file: "
     silent let x = nr2char(getchar())
     redraw
-    
+
     if x =~ '[0-9a-z]'
         silent call org#LocateFile(fdict[bufnums[index(nums,char2nr(x))]])
     endif
@@ -5550,8 +5550,8 @@ function! s:CycleAgendaFiles(direction)
         let cur_file = substitute(cur_file,'\','\\\\','g')
         let cur_file = substitute(cur_file,'\\ ','\ ','g')
 
-        let file_count = len(g:agenda_files) 
-        "let ndx = index(g:agenda_files,cur_file) 
+        let file_count = len(g:agenda_files)
+        "let ndx = index(g:agenda_files,cur_file)
         let ndx = -1
         for i in range(0, file_count - 1 )
             if g:agenda_files[i] =~ '\c' . cur_file
@@ -5560,12 +5560,12 @@ function! s:CycleAgendaFiles(direction)
             endif
         endfor
         if ndx > -1
-            "let ndx = (ndx == len(g:agenda_files)) ? 0 : ndx 
+            "let ndx = (ndx == len(g:agenda_files)) ? 0 : ndx
             let ndx += (a:direction ==? 'backward') ? -1 : 1
             if a:direction == 'backward'
-                let ndx = (ndx == -1) ? (len(g:agenda_files) - 1) : ndx 
+                let ndx = (ndx == -1) ? (len(g:agenda_files) - 1) : ndx
             elseif a:direction == 'forward'
-                let ndx = (ndx == len(g:agenda_files)  ? 0 : ndx) 
+                let ndx = (ndx == len(g:agenda_files)  ? 0 : ndx)
             endif
 
             let filename = g:agenda_files[ndx]
@@ -5576,7 +5576,7 @@ function! s:CycleAgendaFiles(direction)
     else
         echo "No agenda files defined."
     endif
-    
+
 endfunction
 
 function! OrgConfirmDrawer(type,...)
@@ -5595,7 +5595,7 @@ function! OrgConfirmDrawer(type,...)
         "execute 'normal o:'. a:type . ':'
         "execute 'normal o:END:'
         "normal k
-        call append(line('.'),[ indent . ':' . a:type . ':' , indent . ':END:'] ) 
+        call append(line('.'),[ indent . ':' . a:type . ':' , indent . ':END:'] )
         execute line('.') + 1
     else
         execute found
@@ -5642,8 +5642,8 @@ function! FollowLink(ldict)
     if ld.link[0] ==# '#'
         let ld.link = '#tn=:CUSTOM_ID:\s\*' . ld.link[1:]
         let prefix = '#'
-    elseif prefix ==? 'file' && (ld.link[5] ==# '.')  
-        " || ld.link[5:6] ==# '\S:') 
+    elseif prefix ==? 'file' && (ld.link[5] ==# '.')
+        " || ld.link[5:6] ==# '\S:')
         " take file prefix out b/c Utl can't handle relative file paths
         let ld.link = ld.link[5:]
     endif
@@ -5662,7 +5662,7 @@ function! FollowLink(ldict)
         "    if search_type is 'dedicated'
         "        let newlink = '#tn=<<' . a:ldict.link . '>>'
         "    elseif search_type is 'headline1'
-        "        let newlink = '#tn=' . b:v.todoMatch . a:ldict.link 
+        "        let newlink = '#tn=' . b:v.todoMatch . a:ldict.link
         "    elseif search_type is 'headline2'
         "        let newlink = '#tn=^*\+ ' . a:ldict.link
         "    else
@@ -5673,7 +5673,7 @@ function! FollowLink(ldict)
         "    let g:newlink = newlink
         "    silent! exec 'Utl o '. newlink . ' split'
 
-        "    if line('.') != savecursor[1] 
+        "    if line('.') != savecursor[1]
         "        break
         "    endif
         "endfor
@@ -5690,7 +5690,7 @@ function! FollowTextLink(link)
         if search_type is 'dedicated'
             let newlink = '#tn=<<' . a:link . '>>'
         elseif search_type is 'headline1'
-            let newlink = '#tn=' . b:v.todoMatch . a:link 
+            let newlink = '#tn=' . b:v.todoMatch . a:link
         elseif search_type is 'headline2'
             let newlink = '#tn=^*\+ ' . a:link
         else
@@ -5701,7 +5701,7 @@ function! FollowTextLink(link)
         let g:newlink = newlink
         silent! exec 'Utl o '. newlink . ' split'
 
-        if line('.') != savecursor[1] 
+        if line('.') != savecursor[1]
             break
         endif
     endfor
@@ -5712,12 +5712,12 @@ function! EditLink()
 
     let link = input('Link: ', thislink.link)
     let desc = input('Description: ', thislink.desc)
-    
+
     if thislink.link !=# ''
         "delete existing hyperlink
         call search('\[\[','b',line('.'))
         normal v/]]/exx
-    endif 
+    endif
 
     silent exec 'normal i[[' . link . ']' . (desc ># '' ? '[' . desc . ']' : '') . ']'
     echo ''
@@ -5764,7 +5764,7 @@ function! s:SetColumnHead()
 " specs
     "let i = 0
     "while i < len(w:v.org_colview_list)
-    "    let result .= '|' . s:PrePad(w:v.org_colview_list[i] , w:v.org_colview_list[i+1]) . ' ' 
+    "    let result .= '|' . s:PrePad(w:v.org_colview_list[i] , w:v.org_colview_list[i+1]) . ' '
     "    let i += 2
     "endwhile
     "let g:org_ColumnHead = result[:-2]
@@ -5789,20 +5789,20 @@ function! s:OrgSetColumnList(line_for_cols,...)
     if (a:0 >= 2) && (a:2 ># '')
         " use column spec that was passed in
         let column_prop = a:2
-    else   
+    else
         let w:v.org_current_columns = column_prop
     endif
-    
+
     let result = ''
     let g:org_column_headers = ''
     let i = 0
-    
+
     if column_prop ># ''
         let w:v.org_colview_list=split(column_prop,' ')
     else
         let w:v.org_colview_list=[]
     endif
-    
+
     call s:SetColumnHeaders()
 
 endfunction
@@ -5813,11 +5813,11 @@ function! s:SetColumnHeaders()
     for item in (w:v.org_colview_list)
         let [ fmt, field, hdr ] = matchlist(item,'%\(\d*\)\(\S\{-}[^({]*\)(*\([^ )]*\)')[1:3]
         let fmt = (fmt ==# '') ? '%-' . g:org_columns_default_width . 's' : ('%-' . fmt . 's')
-        if field ==# 'ITEM' 
+        if field ==# 'ITEM'
            let w:v.org_column_item_head = (hdr=='') ? 'ITEM' : hdr
-           continue 
+           continue
         endif
-        let g:org_column_headers .= printf('|' . fmt, (hdr ==# '') ? field : hdr )  
+        let g:org_column_headers .= printf('|' . fmt, (hdr ==# '') ? field : hdr )
     endfor
 
 endfunction
@@ -5835,11 +5835,11 @@ function! s:GetFoldColumns(line)
         let [ fmt, field, hdr ] = matchlist(item,'%\(\d*\)\(\S\{-}[^({]*\)(*\(\S*\))*')[1:3]
         if field ==# 'ITEM' | continue | endif
         let fldtext = get(props,toupper(field),'')
-        let fmt = (fmt ==# '') ? g:org_columns_default_width :  fmt 
+        let fmt = (fmt ==# '') ? g:org_columns_default_width :  fmt
         " truncate text if too long
         "let fldtext = (len(fldtext)<=fmt) ? fldtext : (fldtext[:fmt-3] . '..')
         let fldtext = (strchars(fldtext)<=fmt) ? fldtext : (fldtext[:fmt-3] . '..')
-        let result .= printf( '|%-'.fmt.'s', fldtext,'') 
+        let result .= printf( '|%-'.fmt.'s', fldtext,'')
     endfor
 
     return result
@@ -5849,7 +5849,7 @@ function! ToggleColumnView(master_head,col_spec)
 
     if w:v.columnview
         let winnum = bufwinnr('ColHeadBuffer')
-        if winnum > 0 
+        if winnum > 0
             execute "bw!" . bufnr('ColHeadBuffer')
         endif
         let w:v.columnview = 0
@@ -5857,11 +5857,11 @@ function! ToggleColumnView(master_head,col_spec)
         call s:OrgSetColumnList(line('.'),a:master_head,a:col_spec)
         call s:ColHeadWindow(w:v.org_column_item_head)
         let w:v.columnview = 1
-    endif   
+    endif
 endfunction
 function! <SID>ColumnStatusLine()
     if exists('g:org_column_headers')
-        let part2 = s:PrePad(g:org_column_headers, winwidth(0)-13) 
+        let part2 = s:PrePad(g:org_column_headers, winwidth(0)-13)
 
         return '   ' . w:v.org_column_item_head .  part2
     endif
@@ -5878,13 +5878,13 @@ function! s:AdjustItemLen()
     let i = 1
     let w:v.total_columns_width = 3
     let colspec = split(w:v.org_current_columns, ' ')
-    
+
     for item in colspec
         let [ flen, field ] = matchlist(item,'%\(\d*\)\(\S\{-}[^({]*\)')[1:2]
         if field == 'ITEM' | continue | endif
         let w:v.total_columns_width += (flen > 0) ? flen : g:org_columns_default_width
     endfor
-    
+
     let w:v.org_item_len = winwidth(0) - 10 - ((w:v.columnview==1) ? w:v.total_columns_width : 0)
 endfunction
 au VimResized * :call s:ResizedWin()
@@ -5901,19 +5901,19 @@ function! s:ResizedWin()
 endfunction
 
 function! <SID>CalendarChoice(day, month, year, week, dir)
-    let g:agenda_startdate = a:year.'-' . s:Pre0(a:month).'-'.s:Pre0(a:day) 
+    let g:agenda_startdate = a:year.'-' . s:Pre0(a:month).'-'.s:Pre0(a:day)
     "call OrgRunAgenda(g:agenda_startdate, g:org_agenda_days,g:org_search_spec)
     silent call s:RunCustom({'type':'agenda','agenda_date':g:agenda_startdate, 'agenda_duration':'d', 'spec':g:org_search_spec})
 endfunction
 function! <SID>CalendarInsertDate(day, month, year, week, dir)
     if (a:year > 0) && (a:month>0) && (a:day>0)
-        let g:cal_list=[a:year,a:month,a:day] 
+        let g:cal_list=[a:year,a:month,a:day]
     endif
-    
+
     "call confirm('got here')
 endfunction
 function! OrgFunc(func,...)
-    "not working, itnended to be general way to 
+    "not working, itnended to be general way to
     " call script-local functions
     let myfunc = function('<SNR>'.s:SID().'_'.a:func)
     if a:000 > 0
@@ -5922,7 +5922,7 @@ function! OrgFunc(func,...)
         let myargs = ''
     endif
 endfunction
-    
+
 function! s:MyPopup()
     call feedkeys("i\<c-x>\<c-u>")
 endfunction
@@ -5942,7 +5942,7 @@ function! s:CompleteOrg(findstart, base)
         let prop = matchstr(getline(line(".")),'^\s*:\zs\s*\S\+\s*\ze:')
         " find months matching with "a:base"
         let res = []
-        execute "let proplist = b:v." . prop . 'List' 
+        execute "let proplist = b:v." . prop . 'List'
         "for m in split("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")
         for m in proplist
             if m =~ '^' . a:base
@@ -5973,14 +5973,14 @@ function! OrgFoldText(...)
 
     " get rid of header prefix
     let l:line = substitute(l:line,'^\*\+\s*','','g')
-    let l:line = repeat(' ', s:Starcount(foldstart)+1) . l:line 
+    let l:line = repeat(' ', s:Starcount(foldstart)+1) . l:line
     let line_count = v:foldend - v:foldstart
 
     if l:line =~ b:v.drawerMatch
         "let level_highlight = hlID('Title')
         let level_highlight = hlID('Org_Drawer_Folded')
         let l:line = repeat(' ', strchars(matchstr(l:line,'^ *'))-1)
-                    \ . matchstr(l:line,'\S.*$') 
+                    \ . matchstr(l:line,'\S.*$')
         let line_count = line_count - 1
     elseif l:line[0] ==? '#'
         let level_highlight = hlID('VisualNOS')
@@ -5991,8 +5991,8 @@ function! OrgFoldText(...)
         let mytrim = w:v.org_item_len
         let line = line[:mytrim]
     endif
-    if exists('w:sparse_on') && w:sparse_on && (a:0 == 0) 
-        let b:v.signstring= s:GetPlacedSignsString(bufnr("%")) 
+    if exists('w:sparse_on') && w:sparse_on && (a:0 == 0)
+        let b:v.signstring= s:GetPlacedSignsString(bufnr("%"))
         if match(b:v.signstring,'line='.v:foldstart.'\s\sid=\d\+\s\sname=fbegin') >=0
         "if index(b:v.sparse_list,v:foldstart) > -1            "v:foldstart == 10
             let l:line = '* * * * * * * * * * * ' . (v:foldend - v:foldstart) . ' lines skipped here * * * * * * *'
@@ -6000,11 +6000,11 @@ function! OrgFoldText(...)
             let level_highlight = hlID('TabLineFill')
         endif
     endif
-    if g:org_show_fold_dots 
+    if g:org_show_fold_dots
         let l:line .= '...'
     endif
     let offset = &fdc + 5*(&number) + (w:v.columnview ? 7 : 1)
-    if w:v.columnview && (origline =~ b:v.headMatch) 
+    if w:v.columnview && (origline =~ b:v.headMatch)
         if (w:v.org_columns_master_heading == 0) || s:HasAncestorHeadOf(foldstart,w:v.org_columns_master_heading)
             let l:line .= s:PrePad(s:GetFoldColumns(foldstart), winwidth(0)-strchars(l:line) - offset)
         else
@@ -6012,13 +6012,13 @@ function! OrgFoldText(...)
         endif
     endif
     if a:0 && (foldclosed(line('.')) > 0)
-        let l:line .= s:PrePad("(" 
+        let l:line .= s:PrePad("("
             \  . s:PrePad( (foldclosedend(line('.'))-foldclosed(line('.'))) . ")",5),
-            \ winwidth(0)-strchars(l:line) - offset) 
-    elseif (g:org_show_fold_lines ) || (l:line =~ b:v.drawerMatch) 
-        let offset = (w:v.columnview && l:line =~ b:v.drawerMatch) ? offset - 6 : offset 
+            \ winwidth(0)-strchars(l:line) - offset)
+    elseif (g:org_show_fold_lines ) || (l:line =~ b:v.drawerMatch)
+        let offset = (w:v.columnview && l:line =~ b:v.drawerMatch) ? offset - 6 : offset
         let l:line .= s:PrePad("|" . s:PrePad( line_count . "|",5),
-                    \ winwidth(0)-strchars(l:line) - offset) 
+                    \ winwidth(0)-strchars(l:line) - offset)
     endif
     if exists('v:foldhighlight')
         if get(b:v.heading_marks_dict, v:foldstart) == 1
@@ -6032,7 +6032,7 @@ function! OrgFoldText(...)
             if matchstr(origline, b:v.todoMatch) ># ''
                 let this_todo = matchstr(origline, '^\*\+ \zs\S*')
                 if hlID(this_todo) > 55      " > 55 avoids built-in todo group
-                   let v:todohighlight = hlID(this_todo) 
+                   let v:todohighlight = hlID(this_todo)
                 else
                     let v:todohighlight = ('* ' . this_todo =~ b:v.todoDoneMatch) ? hlID('DONETODO') : hlID('NOTDONETODO')
                 endif
@@ -6068,10 +6068,10 @@ function! s:BCompare(i1,i2)
         " prefix an item by 'n' if you want numeric sorting
         if (i < len(b:v.sortcompare) - 1) && (b:v.sortcompare[i] ==? 'n')
             let i = i + 1
-            let m1 = str2nr(matchstr(a:i1,b:v.complist[b:v.sortcompare[i]-1])) 
+            let m1 = str2nr(matchstr(a:i1,b:v.complist[b:v.sortcompare[i]-1]))
             let m2 = str2nr(matchstr(a:i2,b:v.complist[b:v.sortcompare[i]-1]))
         else
-            let m1 = matchstr(a:i1,b:v.complist[b:v.sortcompare[i]-1]) 
+            let m1 = matchstr(a:i1,b:v.complist[b:v.sortcompare[i]-1])
             let m2 = matchstr(a:i2,b:v.complist[b:v.sortcompare[i]-1])
         endif
         if m1 == m2
@@ -6081,9 +6081,9 @@ function! s:BCompare(i1,i2)
                 let i += 1
                 continue
             endif
-        elseif m1 > m2 
+        elseif m1 > m2
             return 1
-        else 
+        else
             return -1
         endif
     endwhile
@@ -6131,7 +6131,7 @@ command! AgendaMoveToBuf call s:OrgAgendaToBuf()
 command! -range CodeEval :call <SID>CodeEval
 command! -buffer -nargs=* Agenda :call OrgAgendaCommand(<f-args>)
 function! CodeEval() range
-    
+
 endfunction
 
 function! OrgAgendaCommand(...)
@@ -6177,13 +6177,13 @@ function! s:OrgAgendaToBufTest()
 endfunction
 function! s:OrgAgendaToBuf()
     let win = bufwinnr('Calendar')
-    
-    if win >= 0 
+
+    if win >= 0
         execute win . 'wincmd w'
         wincmd c
         execute bufwinnr('Agenda').'wincmd w'
-    endif   
-    
+    endif
+
     if getline(line(".")) =~ '^\d\+'
         let thisline = getline(line('.'))
         let g:tofile = s:filedict[str2nr(matchstr(thisline, '^\d\d\d'))]
@@ -6194,9 +6194,9 @@ function! s:OrgAgendaToBuf()
     let cur_buf = bufnr("%")  " should be Agenda
     close!
     call org#LocateFile(g:tofile )
-    
+
     AAgenda
-    
+
     call org#LocateFile(g:tofile )
     "if &fdm != 'expr'
     "    set fdm=expr
@@ -6205,7 +6205,7 @@ function! s:OrgAgendaToBuf()
     let newhead = matchstr(s:GetPlacedSignsString(bufnr("%")),'line=\zs\d\+\ze\s\+id=' . g:showndx)
     let newhead = s:OrgGetHead_l(newhead)
     execute newhead
-    
+
     normal! zv
     if getline(line('.')) =~ b:v.headMatch
         "restrict to headings only
@@ -6218,12 +6218,12 @@ function! s:OrgAgendaToBuf()
     let headlevel = s:Ind(b:v.chosen_agenda_heading)
     let headlevel = (headlevel > 6) ? '' : headlevel-1
     call matchadd('Org_Chosen_Agenda_Heading' . headlevel,'\%' . b:v.chosen_agenda_heading .'l')
-    
+
     execute bufwinnr('Agenda').'wincmd w'
 
     execute ag_line
     resize
-    execute "resize " . ag_height 
+    execute "resize " . ag_height
 
     if win >= 0
         Calendar
@@ -6256,23 +6256,23 @@ function! s:GotoMainWindow()
     wincmd t
 endfunction
 
-function! s:Ind(line) 
+function! s:Ind(line)
     " used to get level of a heading (todo : rename this function)
-    "return 1 + (len(matchstr(getline(a:line),'^\**\s'))-1)/b:v.levelstars  
-    return 2 + (len(matchstr(getline(a:line),'^\**\s'))-2)/b:v.levelstars  
+    "return 1 + (len(matchstr(getline(a:line),'^\**\s'))-1)/b:v.levelstars
+    return 2 + (len(matchstr(getline(a:line),'^\**\s'))-2)/b:v.levelstars
 
 endfunction
 
 function! s:DoAllTextFold(line)
     "let d = inputdialog('in fullfold')
     if s:IsText(a:line+1) == 0
-        return 
+        return
     endif
-    while ((s:NextVisibleHead(a:line) != foldclosedend(a:line) + 1) 
+    while ((s:NextVisibleHead(a:line) != foldclosedend(a:line) + 1)
                 \ && (foldclosedend(a:line) <= line("$"))
                 \ && (s:NextVisibleHead(a:line) != 0)
-                \ && (OrgFoldLevel(a:line) =~ '>')) 
-                \ || (foldclosedend(a:line) < 0)  
+                \ && (OrgFoldLevel(a:line) =~ '>'))
+                \ || (foldclosedend(a:line) < 0)
                 \ || ((s:NextVisibleHead(a:line) == 0) && (s:OrgSubtreeLastLine() == line('$')) && (foldclosedend(a:line)!=line('$')))
         call OrgDoSingleFold(a:line)
     endwhile
@@ -6332,13 +6332,13 @@ function! OrgFoldLevel(line)
         endif
         let sparse = index(b:v.fold_list,a:line)
         if sparse >= 0
-            return '<0' 
+            return '<0'
         endif
     endif
 
-    
+
     let [l:text, l:nexttext] = getline(a:line,a:line+1)
-    
+
     if l:text =~ '^\*\+\s'
         let b:v.myAbsLevel = s:Ind(a:line)
     elseif (b:v.lasttext_lev ># '') && (l:text !~ s:remstring) && (l:nexttext !~ '^\*\+\s') && (b:v.lastline == a:line - 1)
@@ -6353,7 +6353,7 @@ function! OrgFoldLevel(line)
         " we're on a heading line
         let b:v.lasttext_lev = ''
         "let b:v.myAbsLevel = s:Ind(a:line)
-        
+
         if l:nexttext =~ b:v.drawerMatch
             let b:v.lev = '>' . string(b:v.myAbsLevel + 4)
         elseif l:nexttext =~ s:remstring
@@ -6369,8 +6369,8 @@ function! OrgFoldLevel(line)
         endif
         let b:v.prevlev = b:v.myAbsLevel
 
-    else    
-        "we have a text line 
+    else
+        "we have a text line
         if b:v.lastline != a:line - 1    " backup to headline to get bearings
             if l:text =~ b:v.drawerMatch
                 let b:v.prevlev = s:Ind(s:OrgPrevHead_l(a:line))
@@ -6393,11 +6393,11 @@ function! OrgFoldLevel(line)
 
         if l:text =~ b:v.drawerMatch
             let b:v.lev = '>' . string(b:v.prevlev + 4)
-        elseif (l:text =~ s:remstring) 
+        elseif (l:text =~ s:remstring)
             if (getline(a:line - 1) =~ b:v.headMatch) && (l:nexttext =~ s:remstring)
                 let b:v.lev =  string(b:v.prevlev + 5)
-            elseif (l:nexttext !~ s:remstring) || 
-                        \ (l:nexttext =~ b:v.drawerMatch) 
+            elseif (l:nexttext !~ s:remstring) ||
+                        \ (l:nexttext =~ b:v.drawerMatch)
                 let b:v.lev = '<' . string(b:v.prevlev + 4)
             else
                 let b:v.lev = b:v.prevlev + 4
@@ -6405,15 +6405,15 @@ function! OrgFoldLevel(line)
         elseif l:text[0] != '#'
                 let b:v.lev = (b:v.prevlev + 2)
                 let b:v.lasttext_lev = b:v.lev
-        elseif b:v.src_fold  
+        elseif b:v.src_fold
             if l:text =~ '^#+begin_src'
                 let b:v.lev = '>' . (b:v.prevlev + 2)
             elseif l:text =~ '^#+end_src'
                 let b:v.lev = '<' . (b:v.prevlev + 2)
             endif
-        else 
+        else
             let b:v.lev = (b:v.prevlev + 2)
-        endif   
+        endif
 
         if l:nexttext =~ '^\* '
             " this is for perf reasons, closing fold
@@ -6423,9 +6423,9 @@ function! OrgFoldLevel(line)
             let b:v.lev = '<' . string(l:nextAbsLevel)
         endif
 
-    endif   
+    endif
     let b:v.lastline = a:line
-    return b:v.lev    
+    return b:v.lev
 
 endfunction
 
@@ -6440,7 +6440,7 @@ function! s:AlignSection(regex,skip,extra) range
     let b:v.stposd = {}
     let section = getline(a:firstline, a:lastline)
     for line in section
-        let stpos = matchend(line,a:skip)   
+        let stpos = matchend(line,a:skip)
         let b:v.stposd[index(section,line)]=stpos
         if maxst < stpos
             let maxst = stpos
@@ -6475,7 +6475,7 @@ function! s:AlignSectionR(regex,skip,extra) range
         if maxpos < pos
             let maxpos = pos
         endif
-        let stpos = len(matchstr(matchstr(line,a:skip),'\s*$')) 
+        let stpos = len(matchstr(matchstr(line,a:skip),'\s*$'))
         if minst > stpos
             let minst = stpos
         endif
@@ -6484,7 +6484,7 @@ function! s:AlignSectionR(regex,skip,extra) range
     call setline(a:firstline, section)
 endfunction
 function! s:ColHeadWindow(itemhead,...)
-    if (a:0 >= 1) && (a:1 == 0) 
+    if (a:0 >= 1) && (a:1 == 0)
        if bufnr('ColHeadBuffer') > -1
            bw ColHeadBuffer
        endif
@@ -6497,19 +6497,19 @@ function! s:ColHeadWindow(itemhead,...)
     "let s:AgendaBufferName = '__Agenda__'
     1split ColHeadBuffer
     call s:ScratchBufSetup()
-    
+
     execute "setlocal statusline=%#OrgColumnHeadings#%{<SNR>" . s:SID() . '_ColumnStatusLine()}'
     set winfixheight
     set winminheight=0
     let w:v = {'org_column_item_head': a:itemhead}
-    
+
     wincmd j
-    " make lower window as big as possible to shrink 
+    " make lower window as big as possible to shrink
     " ColHeadWindow to zero height
     let curheight = winheight(0)
     resize 100
     if bufwinnr('Agenda') > 0
-        execute "resize " . curheight 
+        execute "resize " . curheight
     endif
     au BufEnter ColHeadBuffer call s:ColHeadBufferEnter()
 endfunction
@@ -6624,7 +6624,7 @@ function! s:SaveAgendaFiles(save)
     " yank files into @a
    set nomodified
    if a:save == 1
-       normal gg/^--jV/^--?^\S"ay 
+       normal gg/^--jV/^--?^\S"ay
        let @a = substitute(@a,' ','\\ ','g')
        if @a[0] != '-'
             let g:agenda_files = split(@a,"\n")
@@ -6642,13 +6642,13 @@ endfunction
 "        if g:agenda_files[i] =~ bufname('%') . '$'
 "            let i += 1
 "            break
-"        endif 
+"        endif
 "        let i += 1
 "    endwhile
 "    if i >= len(g:agenda_files) - 1
 "        let i = 0
 "    endif
-"    
+"
 "    call org#LocateFile(g:agenda_files[i])
 "endfunction
 function! s:ScratchBufSetup()
@@ -6719,7 +6719,7 @@ function! OrgAgendaFilesDashboard()
         echo " Press key for an agenda files command:"
         echo " --------------------------------------"
         echo " e       Edit agenda files"
-        if (bufname('%') != '__Agenda__') 
+        if (bufname('%') != '__Agenda__')
         echo " t       Current file to top of agenda file list"
         echo " b       Current file to bottom of agenda file list"
         echo " r       Remove Current file from agenda file list"
@@ -6764,7 +6764,7 @@ function! OrgAgendaDashboard()
         "buffer __Agenda__
         AAgenda
     else
-        " show dashboard if there is no agenda buffer or it's 
+        " show dashboard if there is no agenda buffer or it's
         " already on this tab page
         let restrict = 0
         let saved_afiles = []
@@ -6783,7 +6783,7 @@ function! OrgAgendaDashboard()
             echo " c   Show custom search menu"
             echo " "
             echo " h   Headline-metadata-based sparse tree search"
-            echo " f   Freeform (i.e., regex) sparse tree search" 
+            echo " f   Freeform (i.e., regex) sparse tree search"
             echo " <   restrict to current buffer"
             if restrict == 1
                 echo "     Will restrict to current buffer.  Press a key to choose search..."
@@ -6819,7 +6819,7 @@ function! OrgAgendaDashboard()
                 "silent execute "call OrgRunSearch('+ANY_TODO','agenda_todo')"
                 silent call s:RunCustom({'type':'tags-todo','spec':'+ANY_TODO'})
             elseif key ==? 'a'
-                "if (g:org_search_spec ==# '') 
+                "if (g:org_search_spec ==# '')
                     "let g:org_search_spec = g:agenda_default_search_spec
                 "endif
                 "silent execute "call OrgRunAgenda(s:Today(),'w', g:org_agenda_default_search_spec)"
@@ -6872,40 +6872,40 @@ function! s:AgendaBufSyntax()
         syntax match TimeGridSpace '^ \{8}\ze *\d\d:\d\d' conceal containedin=agenda_timegrid
         "for agenda clocktable
         syn region Org_Full_Link concealends matchgroup=linkends start='\[\[\(.\{-1,}\)]\[' end=']]'
-    endif	
-    syntax match agenda_timegrid '^\s*\d\d:\d\d.\{14}--.*' 
+    endif
+    syntax match agenda_timegrid '^\s*\d\d:\d\d.\{14}--.*'
     syntax match AOL1 '^\d\+\s\+\S\+\s\{-1,16}\*\{1} .*$'hs=s+23
     syntax match AOL2 '^\d\+\s\+\S\+\s\{-1,16}\*\{2} .*$'hs=s+23
     syntax match AOL3 '^\d\+\s\+\S\+\s\{-1,16}\*\{3} .*$'hs=s+23
     syntax match AOL4 '^\d\+\s\+\S\+\s\{-1,16}\*\{4} .*$'hs=s+23
     syntax match AOL5 '^\d\+\s\+\S\+\s\{-1,16}\*\{5} .*$'hs=s+23
-    
+
     let donepat_fragment = '\(' . join(keys(g:org_todos_done_dict),'\|') . '\)'
     let donepat = ' \*\+ \zs' . donepat_fragment . ' '
     exec "syntax match DONETODO /" . donepat . '/ containedin=AOL1,AOL2,AOL3,AOL4,AOL5'
     let notdonepat_fragment = '\(' . join(keys(g:org_todos_notdone_dict),'\|') . '\)'
     let notdonepat = ' \*\+ \zs' . notdonepat_fragment . ' '
     exec "syntax match NOTDONETODO /" . notdonepat . '/ containedin=AOL1,AOL2,AOL3,AOL4,AOL5'
-    
+
     syntax match agenda_scheduled_previous  '^\d\+\s\+\S\+\s\+Sched.\{-}:.*$'
     syntax match agenda_scheduled  '^\d\+\s\+\S\+\s\+Scheduled:.*$'
-    
+
     exec 'syntax match agenda_todo  /^\d\+\s\+\S\+\s\+\(In\|Deadline\|(\d\).\{-}:.\{-}\* ' . notdonepat_fragment . ' .*$/ contains=Locator'
     exec 'syntax match agenda_done  /^\d\+\s\+\S\+\s\+\(In\|Deadline\|(\d\).\{-}:.\{-}\* ' . donepat_fragment . ' .*$/'
     let daytextpat = '/^[^S]\S\+\s\+\d\{1,2}\s\S\+\s\d\d\d\d.*/'
     let wkendtextpat = '/^S\S\+\s\+\d\{1,2}\s\S\+\s\d\d\d\d.*/'
-    exec 'syntax match agenda_date ' . daytextpat  
-    
-    exec 'syntax match agenda_weekenddate ' . wkendtextpat  
+    exec 'syntax match agenda_date ' . daytextpat
+
+    exec 'syntax match agenda_weekenddate ' . wkendtextpat
     syntax match agenda_omitted_days ' \[\. \..\{-}empty days omitted \]'
 
     " call to set up syntax and highlights for custom todos in agenda
     call s:OrgCustomTodoHighlights()
-    
+
 endfunction
 function! s:AgendaHighlight()
     if g:org_gray_agenda
-        hi link AOL1 NONE 
+        hi link AOL1 NONE
         hi link AOL2 NONE
         hi link AOL3 NONE
         hi link AOL4 NONE
@@ -7001,16 +7001,16 @@ function! OrgGetClocktable(filelist, options)
     while i < len(filelist)
         let filelist[i] = substitute(expand(filelist[i]),'\','/','g')
         let filelist[i] = '"' . substitute(filelist[i],' ','\ ','g') . '" '
-        let filestr .=  filelist[i] 
+        let filestr .=  filelist[i]
         let i += 1
     endwhile
     let clkfile = '~/cblock.org'
-    
+
     let mylist = ['#+BEGIN: clocktable :scope (' . filestr . ') ' . a:options ,'','#+END:','']
-    
+
     call writefile(mylist, expand(clkfile) )
 
-    let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . clkfile . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (org-dblock-update)(save-buffer buf)(kill-buffer buf)))' 
+    let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . clkfile . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (org-dblock-update)(save-buffer buf)(kill-buffer buf)))'
         let orgcmd = g:org_command_for_emacsclient . ' --eval ' . s:cmd_line_quote_fix . '"' . part1 . s:cmd_line_quote_fix . '"'
         "redraw
         "unsilent echo "Calculating in Emacs. . . "
@@ -7019,16 +7019,16 @@ function! OrgGetClocktable(filelist, options)
         else
           silent  exe '!' . orgcmd
         endif
-        
+
         return readfile(expand('~/cblock.org'))
 endfunction
 function! OrgEvalBlock()
     let savecursor = getpos('.')
     let save_showcmd = &showcmd | set noshowcmd
-    
-    let start = search('^#+begin:','bnW','') 
-    let prev_end = search('^#+end','bnW','') 
-    let end = search('^#+end','nW','') 
+
+    let start = search('^#+begin:','bnW','')
+    let prev_end = search('^#+end','bnW','')
+    let end = search('^#+end','nW','')
     if (start == 0) || (end == 0) || ( ( prev_end > start ) && (prev_end < line('.') ) )
         unsilent echo "You aren't in a dynamic block."
         return
@@ -7042,15 +7042,15 @@ function! OrgEvalBlock()
     endif
     exec start
     let line_mark = '@@@@@' . start . '@e@f@g@h'
-    exec 'normal o' . line_mark 
-    
+    exec 'normal o' . line_mark
+
     silent write!
     let this_file = substitute(expand("%:p"),'\','/','g')
     let this_file = substitute(this_file,' ','\ ','g')
 
-    let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . this_file . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (search-forward \^"' . line_mark . '\^" )(forward-line -1)(org-dblock-update)(beginning-of-line)(set-mark (point))(re-search-forward \^"^#\\+END\^")(end-of-line)(write-region (mark) (point) \' . s:cmd_line_quote_fix . '"~/org-block.org\' . s:cmd_line_quote_fix . '")(set-buffer buf) (not-modified) (kill-this-buffer)))' 
+    let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . this_file . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (search-forward \^"' . line_mark . '\^" )(forward-line -1)(org-dblock-update)(beginning-of-line)(set-mark (point))(re-search-forward \^"^#\\+END\^")(end-of-line)(write-region (mark) (point) \' . s:cmd_line_quote_fix . '"~/org-block.org\' . s:cmd_line_quote_fix . '")(set-buffer buf) (not-modified) (kill-this-buffer)))'
     " line below was using org-narrow-to-block, which may use again
-        "let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . this_file . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (search-forward \^"' . line_mark . '\^" )(forward-line -1)(org-dblock-update)(org-narrow-to-block)(write-region (point-min) (point-max) \' . s:cmd_line_quote_fix . '"~/org-block.org\' . s:cmd_line_quote_fix . '")(set-buffer buf) (not-modified) (kill-this-buffer)))' 
+        "let part1 = '(let ((org-confirm-babel-evaluate nil)(buf (find-file \' . s:cmd_line_quote_fix . '"' . this_file . '\' . s:cmd_line_quote_fix . '"' . '))) (progn (search-forward \^"' . line_mark . '\^" )(forward-line -1)(org-dblock-update)(org-narrow-to-block)(write-region (point-min) (point-max) \' . s:cmd_line_quote_fix . '"~/org-block.org\' . s:cmd_line_quote_fix . '")(set-buffer buf) (not-modified) (kill-this-buffer)))'
         let orgcmd = g:org_command_for_emacsclient . ' --eval ' . s:cmd_line_quote_fix . '"' . part1 . s:cmd_line_quote_fix . '"'
         redraw
         unsilent echo "Calculating in Emacs. . . "
@@ -7117,14 +7117,14 @@ function! OrgTableDashboard()
     echo " Press key for table  operation:"
     echo " --------------------------------"
     if getline(line('.')) !~ b:v.tableMatch
-        let mydict = {  't' : 'convert_region_to_table'}  
-        echo " [t]  Create (t)able from current block" 
+        let mydict = {  't' : 'convert_region_to_table'}
+        echo " [t]  Create (t)able from current block"
     else
         let mydict = { 'l':'col_left', 'r':'col_right', 'e':'col_delete', 'o':'col_insert',
-                \     'd':'row_down', 'u':'row_up', 'x':'row_delete', 
+                \     'd':'row_down', 'u':'row_up', 'x':'row_delete',
                 \     'i':'row_insert', 'a':'row_sort_region_alpha', 'A':'row_sort_region_alpha_reverse',
                 \     'n':'row_sort_region_numeric', 'N':'row_sort_region_numeric', 'h':'row_hline_insert'
-                \      } 
+                \      }
         echo " COLUMN:  [l] Move left  [r] Move right  [e] Delete  [o] Insert"
         echo " ROW:     [d] Move down  [u] Move up     [x] Delete  [i] Insert"
         echo " "
@@ -7147,7 +7147,7 @@ function! OrgTableDashboard()
                 echo "You aren't in a block of text."
             endif
             break
-        elseif (key =~# item) 
+        elseif (key =~# item)
             exec 'OrgTblEval ' . mydict[item]
             break
         endif
@@ -7179,22 +7179,22 @@ function! OrgEvalTable(...) range
         let end  =a:lastline
     endif
     let line_offset = savecursor[1] - start + 1
-    "let line_offset = savecursor[1] - start 
+    "let line_offset = savecursor[1] - start
     " find first line after table block and check for formulas
         exe start . ',' . end . 'w! ~/org-tbl-block.org'
         if opt != 'convert_region_to_table'
             let part1 = '(let ((org-confirm-babel-evaluate nil)'
                        \  . '(buf (find-file \' . s:cmd_line_quote_fix . '"~/org-tbl-block.org\' . s:cmd_line_quote_fix . '"' . ')))'
                        \  . '(progn (beginning-of-line ' . line_offset . ')(forward-char ' . savecursor[2] .')'
-                       \  . '(org-table-maybe-eval-formula)' 
-                       \  . ((opt=='just_eval') ? '' : '(unwind-protect ') . opt_cmd 
-                       \  . '(org-table-recalculate-buffer-tables)(save-buffer buf)(kill-buffer buf))))' 
+                       \  . '(org-table-maybe-eval-formula)'
+                       \  . ((opt=='just_eval') ? '' : '(unwind-protect ') . opt_cmd
+                       \  . '(org-table-recalculate-buffer-tables)(save-buffer buf)(kill-buffer buf))))'
         else
             let part1 = '(let ((org-confirm-babel-evaluate nil)'
                        \  . '(buf (find-file \' . s:cmd_line_quote_fix . '"~/org-tbl-block.org\' . s:cmd_line_quote_fix . '"' . ')))'
                        \  . '(progn (beginning-of-line ' . line_offset . ')(forward-char ' . savecursor[2] .')'
                        \  . '(goto-char (point-min))(set-mark (point))(goto-char (point-max))' . opt_cmd
-                       \  . '(save-buffer buf)(kill-buffer buf)))' 
+                       \  . '(save-buffer buf)(kill-buffer buf)))'
         endif
         let orgcmd = g:org_command_for_emacsclient . ' --eval ' . s:cmd_line_quote_fix . '"' . part1 . s:cmd_line_quote_fix . '"'
         redraw
@@ -7210,7 +7210,7 @@ function! OrgEvalTable(...) range
         exe start .',' . end . 'read ~/org-tbl-block.org'
         exe start . ',' . end . 'd'
         redraw
-        unsilent echo "Calculating in Emacs. . .   Calculations complete. " 
+        unsilent echo "Calculating in Emacs. . .   Calculations complete. "
     "else
     "    unsilent echo "No #+TBLFM line at end of table, so no calculations necessary."
     "endif
@@ -7219,22 +7219,22 @@ endfunction
 function! OrgEval()
     if s:OrgHasEmacsVar() == 0
         call confirm('VimOrganizer has not been configured to make calls to Emacs.'
-                  \ . "\nPlease see :h vimorg-emacs-setup.") 
+                  \ . "\nPlease see :h vimorg-emacs-setup.")
        return
     endif
     " check if we're in source block
     let line = getline(line('.'))
     let start = search('\c^#+begin_src','cbnW','')
-    let prev_end = search('\c^#+end_src','bnW','') 
-    let end = search('\c^#+end_src','cnW','') 
+    let prev_end = search('\c^#+end_src','bnW','')
+    let end = search('\c^#+end_src','cnW','')
     if (start > 0) && (end > start) && ( prev_end < start )
         call OrgEvalSource()
         return
     endif
     " check if we're in dynamic block
     let start = search('^#+begin:','bnW','')
-    let prev_end = search('^#+end','bnW','') 
-    let end = search('^#+end','nW','') 
+    let prev_end = search('^#+end','bnW','')
+    let end = search('^#+end','nW','')
     if (start > 0) && (end > start) && ( prev_end < start )
         call OrgEvalBlock()
         return
@@ -7247,14 +7247,14 @@ function! OrgEval()
 
    unsilent echo "No evaluation done.  You must be in a table, or on an initial "
             \ . "\nblock line that begins in col 0 with #+BEGIN . . ."
-    
+
 endfunction
 
 function! OrgEvalSource()
     let savecursor = getpos('.')
     let start = search('^#+begin_src','cbnW','') - 1
-    let prev_end = search('^#+end_src','bnW','') 
-    let end = search('^#+end_src','cnW','') 
+    let prev_end = search('^#+end_src','bnW','')
+    let end = search('^#+end_src','cnW','')
     if (start == -1) || (end == 0) || ( ( prev_end > start ) && (prev_end < line('.') ) )
         unsilent echo "You aren't in a code block."
         return
@@ -7274,7 +7274,7 @@ function! OrgEvalSource()
         let end = line('.')
     endif
     exe start . ',' . end . 'w! ~/org-src-block.org'
-    let part1 = '(let ((org-confirm-babel-evaluate nil)) (progn (find-file \' . s:cmd_line_quote_fix . '"~/org-src-block.org\' . s:cmd_line_quote_fix . '"' . ')(org-babel-next-src-block)(org-babel-execute-src-block)(save-buffer)(kill-buffer)))' 
+    let part1 = '(let ((org-confirm-babel-evaluate nil)) (progn (find-file \' . s:cmd_line_quote_fix . '"~/org-src-block.org\' . s:cmd_line_quote_fix . '"' . ')(org-babel-next-src-block)(org-babel-execute-src-block)(save-buffer)(kill-buffer)))'
     let orgcmd = g:org_command_for_emacsclient . ' --eval ' . s:cmd_line_quote_fix . '"' . part1 . s:cmd_line_quote_fix . '"'
     if exists('*xolox#shell#execute')
         silent call xolox#shell#execute(orgcmd, 1)
@@ -7290,7 +7290,7 @@ function! MyExpTest()
     let g:myfilename = substitute(expand("%:p"),'\','/','g')
     let g:myfilename = substitute(g:myfilename, '/ ','\ ','g')
     let g:myvar = '(let ((org-export-babel-evaluate nil)) (progn (find-file \^' . '"' . g:myfilename . '\^' . '"' . ') (org-export-as-html-and-open 3) (kill-buffer) ))'
-    let g:myc =  '!' . g:orgpath . '^"' . g:myvar . '^"' 
+    let g:myc =  '!' . g:orgpath . '^"' . g:myvar . '^"'
     silent exec g:myc
 endfunction
 function! OrgExportDashboard()
@@ -7303,10 +7303,10 @@ function! OrgExportDashboard()
     "let mydict = { 't':'template', 'a':'ascii', 'n':'latin1', 'u':'utf8',
     let mydict = { 't':'template', 'a':'ascii', 'A':'ascii', 'o':'odt', 'O':'odt-and-open',
             \     'n':'latin1', 'N':'latin1', 'u':'utf8','U':'utf8',
-            \     'h':'html', 'b':'html-and-open', 'l':'latex', 
+            \     'h':'html', 'b':'html-and-open', 'l':'latex',
             \     'f':'freemind', 'j':'taskjuggler', 'k':'taskjuggler-and-open',
-            \     'p':'pdf', 'd':'pdf-and-open', 'D':'docbook', 'g':'tangle',  
-            \     'F':'current-file', 'P':'current-project', 'E':'all' } 
+            \     'p':'pdf', 'd':'pdf-and-open', 'D':'docbook', 'g':'tangle',
+            \     'F':'current-file', 'P':'current-project', 'E':'all' }
     echohl MoreMsg
     echo " Press key for export operation:"
     echo " --------------------------------"
@@ -7339,7 +7339,7 @@ function! OrgExportDashboard()
         if (item ==# key) && (item !=# 't')
             "let g:org_emacs_autoconvert = 1
             "call s:GlobalUnconvertTags(changenr())
-            let exportfile = expand('%:t') 
+            let exportfile = expand('%:t')
             silent exec 'write'
 
             let orgpath = g:org_command_for_emacsclient . ' -n --eval '
@@ -7352,14 +7352,14 @@ function! OrgExportDashboard()
             else
                 let g:mypart1 = '(let ((org-export-babel-evaluate nil)'
             endif
-            let g:mypart1 .= '(buf (find-file \' . s:cmd_line_quote_fix . '"' . g:myfilename . '\' . s:cmd_line_quote_fix . '"))) (progn  (' 
+            let g:mypart1 .= '(buf (find-file \' . s:cmd_line_quote_fix . '"' . g:myfilename . '\' . s:cmd_line_quote_fix . '"))) (progn  ('
 
-            if item =~? 'g' 
+            if item =~? 'g'
                 let g:mypart3 = ' ) (set-buffer buf) (not-modified) (kill-this-buffer) ))'
-            else  
+            else
                 let g:mypart3 = ' nil ) (set-buffer buf) (not-modified) (kill-this-buffer) ))'
             endif
-            
+
             if item =~# 'F\|P\|E'
                 let command_part2 = ' org-publish-' . mydict[key]
             elseif item == 'g'
@@ -7385,7 +7385,7 @@ function! OrgExportDashboard()
             break
         endif
     endfor
-    if key ==# 't' 
+    if key ==# 't'
         let template = [
                     \ '#+TITLE:     ' . expand("%p")
                     \ ,'#+AUTHOR:   '
@@ -7426,7 +7426,7 @@ function! s:UniqueList(list)
             let rdict[item] = 1
     endfor
     return sort(map(keys(rdict),'str2nr(v:val)'))
-endfunc 
+endfunc
 function! s:Union(list1, list2)
     " returns the union of two lists
     " (some algo ...)
@@ -7438,7 +7438,7 @@ function! s:Union(list1, list2)
             let rdict[item] = 1
     endfor
     return sort(keys(rdict))
-endfunc 
+endfunc
 function! s:Intersect(list1, list2)
     " returns the intersection of two lists
     " (some algo ...)
@@ -7460,13 +7460,13 @@ function! s:Intersect(list1, list2)
     endfor
     call filter(rdict, 'v:val == 2')
     return sort(keys(rdict))
-endfunc 
+endfunc
 
 function! OrgSetEmphasis( emph_char ) range
     let emph_char = a:emph_char
     let my_mode = mode()
     if my_mode ==? 'v'
-        exe 'normal oi' . emph_char 
+        exe 'normal oi' . emph_char
         exe 'normal gvoi' . emph_char
     else
         exe 'normal i' . emph_char . emph_char
@@ -7491,7 +7491,7 @@ function! s:OrgCustomTodoHighlights()
 
         " xxxx todo put back in containedins, do synclears? check order?
         if bufname('%')=='__Agenda__'
-            exec 'syntax match ' . item . ' ' .  '+ \*\+ \zs' . item . ' + containedin=AOL1,AOL2,AOL3,AOL4,AOL5,AOL6' 
+            exec 'syntax match ' . item . ' ' .  '+ \*\+ \zs' . item . ' + containedin=AOL1,AOL2,AOL3,AOL4,AOL5,AOL6'
         else
             " delete current match if it already exists
             let mymatches = getmatches()
@@ -7506,9 +7506,9 @@ function! s:OrgCustomTodoHighlights()
                 endif
             endfor
             "now put new match in
-            exec 'syntax match ' . item . ' ' .  '+\*\+ \zs' . item . ' + containedin=OL1,OL2,OL3,OL4,OL5,OL6' 
+            exec 'syntax match ' . item . ' ' .  '+\*\+ \zs' . item . ' + containedin=OL1,OL2,OL3,OL4,OL5,OL6'
         endif
-        
+
     endfor
 endfunction
 
@@ -7529,20 +7529,20 @@ function! OrgSetColors()
         execute 'hi ' . pair[0] . ' gui=NONE'
         execute 'hi ' . pair[0] . 'Folded gui=bold'
     endfor
-    
+
     if has('gui_running')
-        hi! FoldColumn guifg=bg guibg=bg 
+        hi! FoldColumn guifg=bg guibg=bg
     else
         try
-            hi! FoldColumn ctermfg=bg ctermbg=bg 
+            hi! FoldColumn ctermfg=bg ctermbg=bg
         catch
             hi! FoldColumn ctermfg=0 ctermbg=0
         endtry
     endif
-   
+
     "show text on SignColumn
-    hi! SignColumn guibg=fg guibg=bg 
-  
+    hi! SignColumn guibg=fg guibg=bg
+
 
     " various text item "highlightings" are below
     " change to suit your taste and put in OrgCustomColors() (see below)
@@ -7564,7 +7564,7 @@ function! OrgSetColors()
     hi! Org_Marked gui=bold guibg=#bbaacc ctermbg=lightgray
     hi! Org_Lnumber guifg=#999999 ctermfg=gray
 
-    " agenda highlight groups below 
+    " agenda highlight groups below
     hi Overdue guifg=red
     hi Upcoming guifg=yellow
     hi DateType guifg=#dd66bb
@@ -7581,7 +7581,7 @@ function! OrgSetColors()
     hi agenda_scheduled_previous guifg=lightmagenta ctermfg=lightmagenta
     hi agenda_timegrid guifg=#666666 ctermfg=gray
     " end agenda highlights
-  
+
     if has("conceal")
         hi! default linkends guifg=blue ctermfg=blue
     endif
@@ -7602,7 +7602,7 @@ function! OrgSetColors()
 
     " below is for setting highlight groups for when agenda is used to
     " select a headline in main doc, or when items are marked.
-    " Use g:org_selector_ctermbg and/or g:org_selector_guibg 
+    " Use g:org_selector_ctermbg and/or g:org_selector_guibg
     " to customize.
     for i in range(1,5)
         let hlstring = org#GetGroupHighlight('OL' . i)
@@ -7719,7 +7719,7 @@ function! s:OutlineHeads()
     for item in g:org_heading_temp[1: level-1]
         let result .= '/' . item
     endfor
-    return result 
+    return result
 endfunction
 function! s:GetMyItems(arghead)
     " assemble and return list of subheads of argument file/heading
@@ -7771,11 +7771,11 @@ function! s:GetTarget()
         while 1
             let s:refile_file = ''
             "let s:refile_file = input("Target file: ","[current file]",'custom,s:FileList')
-            let file_default = (bufname('%')==#'__Agenda__') ? g:agenda_files[0] : ""    
+            let file_default = (bufname('%')==#'__Agenda__') ? g:agenda_files[0] : ""
             "[current file]"
             let s:refile_file = input("Target file: ",file_default,'custom,OrgFileList')
             if s:refile_file ==# '[current file]'
-                let s:refile_file = expand("%") 
+                let s:refile_file = expand("%")
             elseif index(g:agenda_files,s:refile_file) == -1
                 break
             endif
@@ -7859,7 +7859,7 @@ function! s:OrgSortSubheads()
         echo "You must be on a heading to sort subheads."
         return
     endif
-   
+
     " FIRST DELETE ALL SIGNS
     sign unplace *
     let b:v.heading_marks_dict = {}
@@ -7867,7 +7867,7 @@ function! s:OrgSortSubheads()
     execute start . ',' . end . 'g/^\*\{' . s:Ind(line('.')) . '} /call s:PlaceSignsForSort(line("."))'
     exec start
     call s:GatherMarks('forward')
-    
+
 endfunction
 function! s:PlaceSignsForSort(line)
     exec 'sign place ' . a:line . " line=" . a:line . " name=marked buffer=".bufnr("%")
@@ -7920,7 +7920,7 @@ function! s:ChangeLevel( text_lines, change_val )
                 let mylines[i] = repeat('*',change_val) . mylines[i]
             else
                 let abs_change = -(change_val)
-                let mylines[i] = mylines[i][ abs_change :] 
+                let mylines[i] = mylines[i][ abs_change :]
             endif
         endif
         let i += 1
@@ -7929,7 +7929,7 @@ function! s:ChangeLevel( text_lines, change_val )
 endfunction
 function! s:DoRefile(targ_list,heading_list,...)
 
-    if a:0 == 1 
+    if a:0 == 1
         let sort_type = a:1
     endif
     let targ_list = a:targ_list
@@ -7950,7 +7950,7 @@ function! s:DoRefile(targ_list,heading_list,...)
             let file = s:filedict[str2nr(matchstr(getline(line('.')), '^\d\d\d'))]
             let lineno = str2nr(matchstr(getline(line('.')),'^\d\d\d\zs\d*'))
             let buffer_lineno = s:ActualBufferLine(lineno,bufnr(file))
-            
+
             if type(get(file_lines_dict,file)) == 0
                 " add first line item
                 let file_lines_dict[file] = [buffer_lineno]
@@ -7961,15 +7961,15 @@ function! s:DoRefile(targ_list,heading_list,...)
         endfor
     else
         let file_lines_dict = s:AssembleFileHeadingsDict()
-        if empty(file_lines_dict) 
+        if empty(file_lines_dict)
             let file_lines_dict = { expand('%:p'):heading_list}
         endif
     endif
 
     " now that we have dict of file(s) and linelists in file_lines_dict
-    " we can go through and refile/archive 
+    " we can go through and refile/archive
     let archiving = (targ_list[0] == '_archive')
-    if archiving 
+    if archiving
         call s:ArchiveSubtrees(targ_list, file_lines_dict)
     else
         for afile in keys(file_lines_dict)
@@ -7985,7 +7985,7 @@ function! s:DoRefile(targ_list,heading_list,...)
                 let refile_stars = s:Ind(aline) - 1
                 " delete subhead, but first guarantee it's not in a fold
                 normal! zv
-                
+
                 let aline_text = getline(aline)
                 silent execute aline . ',' . s:OrgSubtreeLastLine_l(aline) .  'delete x'
 
@@ -7997,9 +7997,9 @@ function! s:DoRefile(targ_list,heading_list,...)
                 else
                     let x = split( @x, "\n")
                 endif
-                
+
                 let line_buf = string(aline) . bufname('%')
-                if g:org_sort_with_todo_words 
+                if g:org_sort_with_todo_words
                     let first_lines[aline_text . bufname('%')] = line_buf
                 else
                     let first_lines[matchstr(aline_text,b:v.todoMatch . '\{0,1}\s\{0,1}\zs.*') . bufname('%')] = line_buf
@@ -8012,7 +8012,7 @@ function! s:DoRefile(targ_list,heading_list,...)
             call org#LocateFile(afile)
             let b:v.heading_marks_dict = {}
         endfor " for files in file_lines_dict
-        
+
         " now put all the lines in . . .
         " lines below were when each subtree was appended individually
         " that's not case anymore, may need to rework and associate
@@ -8046,7 +8046,7 @@ function! s:DoRefile(targ_list,heading_list,...)
         else   "just delete this line
             delete
         endif
-    endif    
+    endif
     call s:DeleteHeadingMarks()
 
 endfunction
@@ -8062,7 +8062,7 @@ function! s:AssembleFileHeadingsDict()
         endif
         let markmatch = matchlist(line,'\s*line=\(\d\+\).*name=\(.*$\)')
         if !empty(markmatch) && (markmatch[2] == 'marked')
-            if get(file_lines_dict, file, []) == [] 
+            if get(file_lines_dict, file, []) == []
                 let file_lines_dict[file] = [ str2nr(markmatch[1]) ]
             else
                 call add(file_lines_dict[file] , str2nr(markmatch[1]))
@@ -8095,14 +8095,14 @@ function! s:ArchiveSubtrees(targ_list, file_lines_dict)
             let refile_stars = s:Ind(aline) - 1
             " we will delete subhead, but first guarantee it's not in a fold
             normal! zv
-            
+
             call s:SetProp('ARCHIVE_TIME', strftime('%Y-%m-%d %a %H:%M'))
             call s:SetProp('ARCHIVE_FILE', afile)
             call s:SetProp('ARCHIVE_OLPATH', matchstr(getline(s:OrgParentHead()),'^\*\+\s\+\zs.*$') )
             call s:SetProp('ARCHIVE_CATEGORY', b:v.org_dict.iprop(aline,'CATEGORY'))
 
             silent execute aline . ',' . s:OrgSubtreeLastLine_l(aline) .  'delete x'
-            
+
             call org#LocateFile(afile . '_archive')
             if line('$') == 1
                 let prefix_lines = [' #    -*- mode: org -*-',
@@ -8141,12 +8141,12 @@ function! s:OrgGotoHeading(target_file, target_head, ...)
         call search( '^' . stars . ' ' . head_list[i], '', last_subline)
         let i += 1
     endwhile
-endfunction 
-    
+endfunction
+
 function! s:OrgVal(variable_str)
     " takes variable as an argument and tests whether it's defined
     " if not returns -1, otherwise return variable value
-    if exists(a:variable_str) 
+    if exists(a:variable_str)
         execute 'let val=' . a:variable_str
     else
         let val = -1
@@ -8161,7 +8161,7 @@ au BufRead *.org :PreLoadTags
 au BufWrite *.org :PreWriteTags
 au BufWritePost *.org :PostWriteTags
 
-setlocal fillchars=|, 
+setlocal fillchars=|,
 
 "Section Narrow Region
 let g:nrrw_rgn_vert=1
@@ -8205,7 +8205,7 @@ function! NarrowCodeBlock(line)
         let &winwidth=start_width*2/3
     else
         let start = s:OrgGetHead_l(a:line)
-        if start > 0 
+        if start > 0
             let end = s:OrgSubtreeLastLine_l(start)
             execute start . ',' . end . 'call nrrwrgn#NrrwRgn()'
             " then set ftype in new buffer
@@ -8325,7 +8325,7 @@ amenu <silent> &Org.R&e-read\ Config\ Lines :call OrgProcessConfigLines()<cr>
 "  'endif' below is special 'endif' closing the 'if !exists(org_loaded)
 "  line near top of file.  Thus the main functions are loaded
 "  only once for all buffers, with settngs at begin of file
-"  and mappings below this line executed for each buffer 
+"  and mappings below this line executed for each buffer
 "  having org filetype
 "*********************************************************************
 "*********************************************************************
@@ -8360,12 +8360,12 @@ if !exists('g:org_tag_setup')
 endif
 
 call OrgProcessConfigLines()
-"syntax match OL1 +^\(*\)\{1}\s.*+ 
-"syntax match OL2 +^\(*\)\{2}\s.*+ 
+"syntax match OL1 +^\(*\)\{1}\s.*+
+"syntax match OL2 +^\(*\)\{2}\s.*+
 "syntax match OL3 +^\(*\)\{3}\s.*+ contains=CONTAINED
-"exec "syntax match DONETODO '" . b:v.todoDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6" 
-"exec "syntax match DONETODO '" . b:v.todoDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6" 
-"exec "syntax match NOTDONETODO '" . b:v.todoNotDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6" 
+"exec "syntax match DONETODO '" . b:v.todoDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6"
+"exec "syntax match DONETODO '" . b:v.todoDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6"
+"exec "syntax match NOTDONETODO '" . b:v.todoNotDoneMatch . "' containedin=OL1,OL2,OL3,OL4,OL5,OL6"
 "using matchadd b/c syntax match wouldn't show up as contained in OL group
 "with start of '^'
 
@@ -8394,14 +8394,14 @@ execute "source " . expand("<sfile>:p:h") . '/vimorg-main-mappings.vim'
 call s:DeleteSigns()
 " below is autocmd to change tw for lines that have comments on them
 " I think this should go in vimrc so i runs for each buffer load
-"  :autocmd CursorMoved,CursorMovedI * :if match(getline(line(".")), '^*\*\s') == 0 | :setlocal textwidth=99 | :else | :setlocal textwidth=79 | :endif 
+"  :autocmd CursorMoved,CursorMovedI * :if match(getline(line(".")), '^*\*\s') == 0 | :setlocal textwidth=99 | :else | :setlocal textwidth=79 | :endif
 set com=sO::\ -,mO::\ \ ,eO:::,::,sO:>\ -,mO:>\ \ ,eO:>>,:>
 set fo=qtcwn
 let b:v.current_syntax = "org"
 setlocal foldtext=OrgFoldText()
 
 "user can define OrgCustomSettings() in vimrc to change default settings
-"in org buffers.  If syntax or highlight related, though, should 
+"in org buffers.  If syntax or highlight related, though, should
 "make changes in OrgCustomColors()
 if exists('*OrgCustomSettings')
     call OrgCustomSettings()
